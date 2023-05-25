@@ -9,3 +9,36 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  firstname String
+  lastname String?
+  phone String
+  address String
+}
+
+model Restraunt {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  address String
+}
+
+model Product {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String
+  price Int
+}
+
+model OrderItem {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  product Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Order {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  totalPrice Int
+}
