@@ -42,7 +42,7 @@ export type OrderItem = {
 export type Order = {
   id: string;
   totalPrice: number;
-  orderItems: OrderItem[]
+  items: OrderItem[]
   user: User;
   userId: string;
 }

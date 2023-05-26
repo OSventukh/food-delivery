@@ -16,7 +16,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { orderItems, userId }: Order = await request.json();
+    const { items: orderItems, userId }: Order = await request.json();
 
     let totalPrice = 0;
     for (const orderItem of orderItems) {
@@ -27,11 +27,13 @@ export async function POST(request: Request) {
     }
 
     const createdOrder = await prisma.order.create({
-      items: {
-        create: orderItems,
-      },
-      totalPrice,
-      userId,
+      data: {
+        items: {
+          create: orderItems,
+        },
+        totalPrice,
+        userId,
+      }
     });
     return NextResponse.json(
       {
