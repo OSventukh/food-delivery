@@ -4,8 +4,8 @@ import type { Product } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
-    const restaurants = await prisma.product.findMany();
-    return NextResponse.json({ restaurants });
+    const products = await prisma.product.findMany();
+    return NextResponse.json({ products });
   } catch (error: unknown) {
     return NextResponse.json(
       { message: 'Something went wrong' },
