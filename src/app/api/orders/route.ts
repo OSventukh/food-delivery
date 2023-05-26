@@ -16,10 +16,22 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const order: Order = await request.json();
+    const { orderItems, userId }: Order = await request.json();
+
+    let totalPrice = 0;
+    for (const orderItem of orderItems) {
+      const product = await prisma.product.findUnique({
+        where: { id: orderItem.productId },
+      });
+      totalPrice += orderItem.quantity * product.price;
+    }
 
     const createdOrder = await prisma.order.create({
-      data: order,
+      items: {
+        create: orderItems,
+      },
+      totalPrice,
+      userId,
     });
     return NextResponse.json(
       {
