@@ -17,6 +17,7 @@ export type User = {
 export type Restraunt = {
   name: string;
   address: Address;
+  products: Product[];
 }
 
 export type Product = {
@@ -25,6 +26,8 @@ export type Product = {
   description: string;
   price: string;
   orderItems: OrderItem[]
+  restraunt: Restraunt;
+  restrauntId: String;
 }
 
 export type OrderItem = {

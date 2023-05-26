@@ -30,6 +30,7 @@ model Restraunt {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
   address Address
+  products Product[]
 }
 
 model Product {
@@ -38,6 +39,8 @@ model Product {
   description String
   price Float
   orderItems OrderItem[]
+  restraunt Restraunt @relation(fields: [restrauntId], references: [id])
+  restrauntId String @db.ObjectId
 }
 
 model OrderItem {
