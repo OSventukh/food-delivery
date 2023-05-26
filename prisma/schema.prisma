@@ -11,13 +11,9 @@ datasource db {
 }
 
 type Address {
-  country String
-  region String
-  district String
   city String
   street String
-  streetNumber String
-  houseNumber Int
+  house String
 }
 
 model User {
@@ -32,7 +28,7 @@ model User {
 
 model Restraunt {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String
+  name String @unique
   address Address
 }
 
@@ -48,6 +44,7 @@ model OrderItem {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   product Product @relation(fields: [productId], references: [id])
   productId String @db.ObjectId
+  quantity Int
   order Order @relation(fields: [orderId], references: [id])
   orderId String @db.ObjectId
 }
