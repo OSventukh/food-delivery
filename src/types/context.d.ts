@@ -10,12 +10,14 @@ export enum CartActionType {
 
 export type Product = {
   id: string;
-  name: string;
-  price;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
 };
 
 export type CartContextType = {
-  items: Product[];
+  items: {product: Product, quantity: number}[];
   totalPrice: number;
   addToCart: (payload: Product) => void;
   increase: (payload: Product) => void;
