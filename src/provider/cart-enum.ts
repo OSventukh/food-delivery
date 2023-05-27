@@ -3,5 +3,6 @@ export enum CartActionType {
   RemoveItem = "REMOVE_ITEM",
   Increase = "INCREASE",
   Decrease = "DECREASE",
-  Clear = "CLEAR"
+  Clear = "CLEAR",
+  Init = "INIT",
 }

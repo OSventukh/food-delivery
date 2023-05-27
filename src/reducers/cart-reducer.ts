@@ -2,6 +2,7 @@ import { CartActionType } from '../provider/cart-enum';
 
 import type { CartAction, CartContextType, CartItem } from '@/types/context';
 
+
 const sumItems = (cartItems: CartItem[]) => {
   const totalQuantity = cartItems.reduce(
     (total, product) => total + product.quantity,
@@ -86,6 +87,10 @@ export const cartReducer = (
         totalQuantity: 0,
         items: [],
       };
+    }
+
+    case CartActionType.Init: {
+      return action.payload
     }
     default:
       return state;

@@ -55,9 +55,15 @@ export type ClearAction = {
   type: CartActionType.Clear;
 };
 
+export type InitAction = {
+  type: CartActionType.Init;
+  payload: CartContextType;
+};
+
 export type CartAction =
   | AddItemAction
   | RemoveItemAction
   | IncreaseAction
   | DecreaseAction
-  | CartAction;
+  | CartAction
+  | InitAction;

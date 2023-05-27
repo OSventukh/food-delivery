@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import {
   List,
   ListItem,
-  IconButton,
   ListItemText,
   Typography,
 } from '@mui/material';

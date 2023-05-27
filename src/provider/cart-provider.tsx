@@ -3,32 +3,40 @@ import { useReducer, useEffect } from 'react';
 import CartContext from '@/context/cart-context';
 import { CartActionType } from './cart-enum';
 import { cartReducer } from '@/reducers/cart-reducer';
-import type { Product } from '@/types/context';
+import type { Product, CartContextType } from '@/types/context';
 
-const cartData = localStorage.getItem('cart');
+let initialState = {
+  items: [],
+  totalPrice: 0,
+  totalQuantity: 0,
+  addToCart: () => {},
+  increase: () => {},
+  decrease: () => {},
+  removeFromCart: () => {},
+  clearCart: () => {},
+};
 
 export default function CartContextProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let initialState = {
-    items: [],
-    totalPrice: 0,
-    totalQuantity: 0,
-    addToCart: () => {},
-    increase: () => {},
-    decrease: () => {},
-    removeFromCart: () => {},
-    clearCart: () => {},
-  };
-
-  
-  const [state, dispatch] = useReducer(cartReducer, cartData ? JSON.parse(cartData) : initialState);
+  const [state, dispatch] = useReducer(cartReducer, initialState);
 
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(state))
+    const cartData = localStorage.getItem('cart');
+    if (cartData) {
+      initState(JSON.parse(cartData))
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state));
   }, [state]);
+
+  const initState = (payload: CartContextType) => {
+    dispatch({ type: CartActionType.Init, payload });
+  };
 
   const addToCart = (payload: Product) => {
     dispatch({ type: CartActionType.AddItem, payload });
