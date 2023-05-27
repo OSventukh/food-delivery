@@ -10,7 +10,7 @@ export default function CartList() {
   const { items, totalPrice, increase, decrease, removeFromCart } = useContext(CartContext);
 
   return (
-    <Paper sx={{ p: '1rem 2rem' }}>
+    <>
       <List>
         {items.map((item) => (
           <>
@@ -32,6 +32,9 @@ export default function CartList() {
           </>
         ))}
       </List>
-    </Paper>
+      <Box sx={{ display: 'flex', justifyContent: 'end'}}>
+        Total: {totalPrice} UAH
+      </Box>
+    </>
   );
 }
