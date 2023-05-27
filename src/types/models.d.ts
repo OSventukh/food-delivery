@@ -15,6 +15,7 @@ export type User = {
 }
 
 export type Restraunt = {
+  id: string;
   name: string;
   address: Address;
   products: Product[];

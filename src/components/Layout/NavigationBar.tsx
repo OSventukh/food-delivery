@@ -13,8 +13,6 @@ import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CartContext from '@/context/cart-context';
 
-import type { NavigationBarProps } from '@/types/props';
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -56,24 +54,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-export default function NavigationBar({
-  openSideNavigation,
-}: NavigationBarProps) {
+export default function NavigationBar() {
   const { totalQuantity } = useContext(CartContext);
   return (
     <ThemeProvider theme={mainTheme}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={openSideNavigation(true)}
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography
             variant="h6"
             noWrap

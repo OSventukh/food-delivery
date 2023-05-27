@@ -1,5 +1,5 @@
 export const getData = async (url: string) => {
-  const response = await fetch(url);
+  const response = await fetch(process.env.SITE_URL + url);
   if (!response.ok) {
     throw new Error('Failed to get data')
   }
@@ -7,7 +7,7 @@ export const getData = async (url: string) => {
 };
 
 export const sendData = async (url: string, data: any) => {
-  const response = await fetch(url, {
+  const response = await fetch(process.env.SITE_URL + url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

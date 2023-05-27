@@ -16,7 +16,7 @@ export default function ProductItem({ product }: { product: Product }) {
   const { addToCart } = useContext(CartContext);
   return (
     <Grid item>
-      <Card sx={{ minWidth: '15rem' }}>
+      <Card sx={{ width: '15rem', }}>
         <CardMedia
           title={product.title}
           sx={{
