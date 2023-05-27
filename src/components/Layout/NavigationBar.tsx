@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import Link from 'next/link';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -11,6 +12,7 @@ import mainTheme from '@/theme';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CartContext from '@/context/cart-context';
+
 import type { NavigationBarProps } from '@/types/props';
 
 const Search = styled('div')(({ theme }) => ({
@@ -57,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function NavigationBar({
   openSideNavigation,
 }: NavigationBarProps) {
-  const { totalQuantity } = useContext(CartContext)
+  const { totalQuantity } = useContext(CartContext);
   return (
     <ThemeProvider theme={mainTheme}>
       <AppBar position="fixed">
@@ -75,8 +77,9 @@ export default function NavigationBar({
           <Typography
             variant="h6"
             noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            component={Link}
+            href="/"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block', color: 'inherit' } }}
           >
             Food Delivery
           </Typography>
@@ -89,17 +92,19 @@ export default function NavigationBar({
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="shopping cart"
-            sx={{ ml: 2 }}
-          >
-            <Badge badgeContent={totalQuantity} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          <Link href='/cart'>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="shopping cart"
+              sx={{ ml: 2 }}
+            >
+              <Badge badgeContent={totalQuantity} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </ThemeProvider>

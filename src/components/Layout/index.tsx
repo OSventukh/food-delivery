@@ -1,8 +1,10 @@
-'use client'
+'use client';
 
 import { useState } from 'react';
 import NavigationBar from './NavigationBar';
 import SideNavigation from './Drawer';
+import Container from '@mui/material/Container';
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
@@ -21,9 +23,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <NavigationBar openSideNavigation={toggleDrawer}/>
+      <NavigationBar openSideNavigation={toggleDrawer} />
       <SideNavigation open={open} toggleDrawer={toggleDrawer} />
-      {children}
+      <Container>{children}</Container>
     </>
   );
 }
