@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 const products = [
   {
     id: '1',
-    title: 'Humurger',
+    title: 'Hamburger',
     description: 'Very tasty',
     price: 1.99,
     image:
@@ -13,162 +13,27 @@ const products = [
   },
   {
     id: '2',
-    title: 'Humurger',
+    title: 'Cheeseburger',
     description: 'Very tasty',
-    price: 1.99,
+    price: 2.99,
     image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
+      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Cheeseburger:1-4-product-tile-desktop',
   },
   {
-    id: '1',
-    title: 'Humurger',
+    id: '3',
+    title: 'Double Cheeseburger',
     description: 'Very tasty',
-    price: 1.99,
+    price: 5.99,
     image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
+      'https://s7d1.scene7.com/is/image/mcdonalds/SdwchDoubleCheeseburger:1-4-product-tile-desktop',
   },
   {
-    id: '2',
-    title: 'Humurger',
+    id: '4',
+    title: 'McChicken',
     description: 'Very tasty',
-    price: 1.99,
+    price: 6.99,
     image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },{
-    id: '1',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
-  },
-  {
-    id: '2',
-    title: 'Humurger',
-    description: 'Very tasty',
-    price: 1.99,
-    image:
-      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_Hamburger:1-4-product-tile-desktop',
+      'https://s7d1.scene7.com/is/image/mcdonalds/Sdwch_McChicken:1-4-product-tile-desktop',
   },
 ];
 export default function ProductsList() {

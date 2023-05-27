@@ -16,9 +16,14 @@ export type Product = {
   image: string;
 };
 
+export type CartItem = Product & {
+  quantity: number;
+};
+
 export type CartContextType = {
-  items: {product: Product, quantity: number}[];
+  items: CartItem[];
   totalPrice: number;
+  totalQuantity: number;
   addToCart: (payload: Product) => void;
   increase: (payload: Product) => void;
   decrease: (payload: Product) => void;
@@ -26,7 +31,33 @@ export type CartContextType = {
   clearCart: () => void;
 };
 
-export type CartAction = {
-  type: CartActionType;
-  payload?: Product;
+export type AddItemAction = {
+  type: CartActionType.AddItem;
+  payload: Product;
 };
+
+export type RemoveItemAction = {
+  type: CartActionType.RemoveItem;
+  payload: Product;
+};
+
+export type IncreaseAction = {
+  type: CartActionType.Increase;
+  payload: Product;
+};
+
+export type DecreaseAction = {
+  type: CartActionType.Decrease;
+  payload: Product;
+};
+
+export type ClearAction = {
+  type: CartActionType.Clear;
+};
+
+export type CartAction =
+  | AddItemAction
+  | RemoveItemAction
+  | IncreaseAction
+  | DecreaseAction
+  | CartAction;

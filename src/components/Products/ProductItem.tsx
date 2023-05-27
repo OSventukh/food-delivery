@@ -1,6 +1,6 @@
 'use client';
+import { useContext } from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -9,7 +9,11 @@ import Box from '@mui/material/Box';
 import type { Product } from '@/types/context';
 import Grid from '@mui/material/Grid';
 import Image from 'next/image';
+import CartContext from '@/context/cart-context';
+
+
 export default function ProductItem({ product }: { product: Product }) {
+  const { addToCart } = useContext(CartContext);
   return (
     <Grid item>
       <Card sx={{ minWidth: '15rem' }}>
@@ -38,7 +42,7 @@ export default function ProductItem({ product }: { product: Product }) {
           <Box sx={{ mt: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Typography component="p">{product.price}</Typography>
 
-            <Button>Buy</Button>
+            <Button onClick={addToCart.bind(null, product)}>Buy</Button>
           </Box>
         </CardContent>
       </Card>
