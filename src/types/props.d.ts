@@ -8,3 +8,9 @@ export type SideNavigationProps = {
 export type NavigationBarProps = {
   openSideNavigation: ToggleDrawer
 }
+
+export type CartItemQuantityProps = {
+  product: Product;
+  increase: (payload: Product) => void;
+  decrease: (payload: Product) => void;
+}

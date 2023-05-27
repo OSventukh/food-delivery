@@ -4,9 +4,10 @@ import CartContext from '@/context/cart-context';
 import { List, ListItem, IconButton, ListItemText, Paper, Box, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
+import CartItemQuantity from './CartItemQuantity';
 
 export default function CartList() {
-  const { items, totalPrice } = useContext(CartContext);
+  const { items, totalPrice, increase, decrease, removeFromCart } = useContext(CartContext);
 
   return (
     <Paper sx={{ p: '1rem 2rem' }}>
@@ -17,9 +18,9 @@ export default function CartList() {
               key={item.id}
               secondaryAction={
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: '2rem'}}>
-                  <Typography>{item.quantity} pc</Typography>
-                  <Typography>{+item.quantity * +item.price} UAH</Typography>
-                <IconButton edge="end" aria-label="delete">
+                  <CartItemQuantity product={item} increase={increase} decrease={decrease} />
+                  <Typography>{item.quantity * item.price} UAH</Typography>
+                <IconButton edge="end" aria-label="delete" onClick={removeFromCart.bind(null, item)}>
                   <DeleteIcon />
                 </IconButton>
                 </Box>
