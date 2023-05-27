@@ -1,16 +1,18 @@
 'use client';
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import CartContext from '@/context/cart-context';
 import { CartActionType } from './cart-enum';
 import { cartReducer } from '@/reducers/cart-reducer';
 import type { Product } from '@/types/context';
+
+const cartData = localStorage.getItem('cart');
 
 export default function CartContextProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const initialState = {
+  let initialState = {
     items: [],
     totalPrice: 0,
     totalQuantity: 0,
@@ -21,7 +23,12 @@ export default function CartContextProvider({
     clearCart: () => {},
   };
 
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+  
+  const [state, dispatch] = useReducer(cartReducer, cartData ? JSON.parse(cartData) : initialState);
+
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state))
+  }, [state]);
 
   const addToCart = (payload: Product) => {
     dispatch({ type: CartActionType.AddItem, payload });
