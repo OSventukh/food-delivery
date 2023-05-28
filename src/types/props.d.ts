@@ -25,3 +25,9 @@ export type CheckoutDataProps = {
   onStreet: (event: ChangeEvent<HTMLInputElement>) => void;
   onHouseNumber: (event: ChangeEvent<HTMLInputElement>) => void;
 };
+
+export type SnackBar = {
+  show: boolean;
+  text: string;
+  type: 'error' | 'warning' | 'info' | 'success';
+};

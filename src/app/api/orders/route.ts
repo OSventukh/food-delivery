@@ -1,6 +1,6 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
-import type { Order } from '@/types/models';
+import type { Order, User } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
@@ -16,25 +16,71 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { items: orderItems, userId }: Order = await request.json();
-
+    const { items: orderItems, user }: {items: {id: string, quantity: number}[], user: User} = await request.json();
+    if (
+      user.firstname.trim() === '' ||
+      user.phone.trim() === '' ||
+      user.address.street.trim() === '' ||
+      user.address.house.trim() === ''
+    ) {
+      return NextResponse.json(
+        {
+          message: 'Incorect Data',
+        },
+        { status: 400 }
+      );
+    }
     let totalPrice = 0;
     for (const orderItem of orderItems) {
       const product = await prisma.product.findUnique({
-        where: { id: orderItem.productId },
+        where: { id: orderItem.id },
       });
-      totalPrice += orderItem.quantity * product.price;
+      if (product) {
+        totalPrice += orderItem.quantity * product.price;
+      }
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { phone: user.phone },
+    });
+
+    let userId;
+    if (!existingUser) {
+      const newUser = await prisma.user.create({
+        data: {
+          firstname: user.firstname,
+          lastname: user?.lastname,
+          phone: user.phone,
+          email: user.email,
+          address: {
+            city: process.env.CITY!,
+            street: user.address.street,
+            house: user.address.house,
+          },
+        },
+      });
+      userId = newUser.id;
+    } else {
+      userId = existingUser.id;
     }
 
     const createdOrder = await prisma.order.create({
       data: {
-        items: {
-          create: orderItems,
-        },
         totalPrice,
-        userId,
+        user: {
+          connect: { id: userId }
+        },
+        items: {
+          create: orderItems.map(item => ({
+            quantity: item.quantity,
+            product: {
+              connect: { id: item.id }
+            }
+          }))
+        }
       }
     });
+
     return NextResponse.json(
       {
         message: 'Order was successfully created',
@@ -58,6 +104,14 @@ export async function PATCH(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
     const data = await request.json();
 
     const updatedOrder = await prisma.order.update({
@@ -88,6 +142,15 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     await prisma.order.delete({
       where: {

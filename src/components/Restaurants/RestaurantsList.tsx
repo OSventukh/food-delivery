@@ -18,8 +18,8 @@ export default function RestaurantsList({
         {restaurants.length === 0 && <div>No restaurants</div>}
         {restaurants.length > 0 &&
           restaurants.map((item, index) => (
-            <ListItem key={item.id} component={restaurant !== item.id ? 'li' : Link} disablePadding href={`/${item.id}`}>
-              <ListItemButton disabled={restaurant !== item.id}>
+            <ListItem key={item.id} component={restaurant && restaurant !== item.id ? 'li' : Link} disablePadding href={`/${item.id}`}>
+              <ListItemButton disabled={restaurant ? restaurant !== item.id : false}>
                 <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>

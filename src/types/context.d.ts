@@ -1,4 +1,5 @@
 import { CartActionType } from '@/provider/cart-enum';
+import { User } from './models';
 
 export enum CartActionType {
   AddItem = 'ADD_TO_CART',
@@ -16,7 +17,17 @@ export type Product = {
   image: string;
 };
 
-
+export type LoggedUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  address: {
+    street: string;
+    house: string;
+  }
+}
 export type CartItem = Product & {
   quantity: number;
 };
@@ -31,6 +42,13 @@ export type CartContextType = {
   decrease: (payload: Product) => void;
   removeFromCart: (payload: Product) => void;
   clearCart: () => void;
+};
+
+e
+export type AuthContextType = {
+  user: LoggedUser | null;
+  login: (user: LoggedUser) => void;
+  logout: () => void;
 };
 
 export type AddItemAction = {

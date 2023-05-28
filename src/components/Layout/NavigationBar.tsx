@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import Link from 'next/link';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -6,13 +6,15 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import mainTheme from '@/theme';
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CartContext from '@/context/cart-context';
-
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import { signIn, signOut } from 'next-auth/react';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -28,34 +30,23 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
-export default function NavigationBar() {
+export default function NavigationBar({ session }: { session: any }) {
   const { totalQuantity } = useContext(CartContext);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleExit = () => {
+    signOut();
+    handleClose();
+  };
   return (
     <ThemeProvider theme={mainTheme}>
       <AppBar position="fixed">
@@ -65,20 +56,14 @@ export default function NavigationBar() {
             noWrap
             component={Link}
             href="/"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block', color: 'inherit' } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', sm: 'block', color: 'inherit' },
+            }}
           >
             Food Delivery
           </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          <Link href='/cart'>
+          <Link href="/cart">
             <IconButton
               size="large"
               edge="start"
@@ -91,6 +76,45 @@ export default function NavigationBar() {
               </Badge>
             </IconButton>
           </Link>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            {session && (
+              <MenuItem
+                onClick={handleClose}
+                component={Link}
+                href="/myorders"
+              >
+                Orders
+              </MenuItem>
+            )}
+            {session && <MenuItem onClick={handleExit}>Exit</MenuItem>}
+            {!session && (
+              <MenuItem onClick={() => signIn()}>Login</MenuItem>
+            )}
+          </Menu>
         </Toolbar>
       </AppBar>
     </ThemeProvider>

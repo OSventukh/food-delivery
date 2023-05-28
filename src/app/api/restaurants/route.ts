@@ -84,6 +84,15 @@ export async function PATCH(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
+
     const data = await request.json();
 
     const updatedRestaurant = await prisma.restaurant.update({
@@ -114,6 +123,15 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     await prisma.restaurant.delete({
       where: {

@@ -1,12 +1,15 @@
 'use client';
 import React, { useState, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import CheckoutData from './CheckoutData';
 import CheckoutOrder from './CheckoutOrder';
 import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
+import { sendData } from '@/utils/fetch';
+import Snack from '../UI/SnackBar';
+
 export default function Checkout() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -14,8 +17,13 @@ export default function Checkout() {
   const [phone, setPhone] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
-  const { items } = useContext(CartContext)
+  const { items, clearCart } = useContext(CartContext);
   const firstNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -52,21 +60,39 @@ export default function Checkout() {
     setHouseNumber(value);
   };
 
-  const checkoutSubmitHandler = (event: React.FormEvent) => {
+  const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    setSuccess(false);
+    setSuccessMessage('');
+    setError(false);
+    setErrorMessage('');
     const orderData = {
       user: {
-        firstName,
-        lastName,
+        firstname: firstName,
+        lastname: lastName,
         email,
         phone,
-        street,
-        houseNumber,
+        address: {
+          street,
+          house: houseNumber,
+        },
       },
-      order: [...items.map((item) => ({id: item.id, quantity: item.quantity}))]
+      items: [
+        ...items.map((item) => ({ id: item.id, quantity: item.quantity })),
+      ],
     };
-
+    try {
+      await sendData('/api/orders', orderData);
+      setSuccess(true);
+      setSuccessMessage('Order successfully created');
+      clearCart();
+      router.replace('/');
+    } catch (error) {
+      setError(true);
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Order not created'
+      );
+    }
   };
 
   return (
@@ -91,6 +117,12 @@ export default function Checkout() {
         <CheckoutOrder />
       </Grid>
       <Button type="submit">Submit</Button>
+
+      <Snack
+        show={error || success}
+        text={error ? errorMessage : success ? successMessage : ''}
+        type={error ? 'error' : 'success'}
+      />
     </Paper>
   );
 }

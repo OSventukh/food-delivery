@@ -2,14 +2,12 @@
 
 import { useState } from 'react';
 import NavigationBar from './NavigationBar';
-import Container from '@mui/material/Container';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
 
+export default function Layout({ session, children }: { session: any, children: React.ReactNode }) {
   return (
     <>
-      <NavigationBar />
+      <NavigationBar session={session} />
       <main>
         {children}
       </main>

@@ -21,7 +21,7 @@ model User {
   email String @unique
   firstname String
   lastname String?
-  phone String
+  phone String  @unique
   address Address
   orders Order[]
 }

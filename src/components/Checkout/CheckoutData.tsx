@@ -3,6 +3,7 @@
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import type { CheckoutDataProps } from '@/types/props';
+
 export default function CheckoutData({ onFirstName, onLastName, onEmail, onPhone, onStreet, onHouseNumber }: CheckoutDataProps) {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: '2', gap: '1rem', p: '1rem 2rem'}}>

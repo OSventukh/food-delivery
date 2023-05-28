@@ -1,6 +1,5 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
-import type { Product } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
@@ -16,7 +15,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const product: Product = await request.json();
+    const product = await request.json();
 
     const createdProduct = await prisma.product.create({
       data: product,
@@ -43,6 +42,15 @@ export async function PATCH(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     const data = await request.json();
 
@@ -74,6 +82,15 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     await prisma.product.delete({
       where: {

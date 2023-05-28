@@ -40,7 +40,7 @@ export default function ProductItem({ product }: { product: Product }) {
           </Typography>
           <Typography sx={{ mt: '1rem' }} component="p">{product.description}</Typography>
           <Box sx={{ mt: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Typography component="p">{product.price}</Typography>
+            <Typography component="p">{product.price} UAH</Typography>
 
             <Button onClick={addToCart.bind(null, product)}>Buy</Button>
           </Box>

@@ -4,6 +4,28 @@ import type { User } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          orders: {
+            include: {
+              items: {
+                include: {
+                  product: true
+                }
+              }
+            }
+          },
+        }
+      });
+      return NextResponse.json({ user });
+    }
     const users = await prisma.user.findMany();
     return NextResponse.json({ users });
   } catch (error: unknown) {
@@ -16,7 +38,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const user: User = await request.json();
+    const user = await request.json();
 
     const createdUser = await prisma.user.create({
       data: user,
@@ -43,6 +65,15 @@ export async function PATCH(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     const data = await request.json();
 
@@ -74,6 +105,15 @@ export async function DELETE(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          message: 'Id is incorect'
+        },
+        { status: 400 }
+      );
+    }
 
     await prisma.user.delete({
       where: {
