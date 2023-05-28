@@ -11,7 +11,7 @@ export default async function MyOrdersPage() {
     redirect('/')
   }
   const result = await getData(`/api/users?id=${session.user.id}`)
-  console.log(result)
+
   return (
     <UserOders items={result.user.orders}/>
   )
