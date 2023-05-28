@@ -4,6 +4,20 @@ import type { Restraunt } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      const restaurant = await prisma.restraunt.findUnique({
+        where: {
+          id,
+        },
+        include: {
+          products: true,
+        }
+      });
+      return NextResponse.json({ restaurant });
+    }
     const restaurants = await prisma.restraunt.findMany();
     return NextResponse.json({ restaurants });
   } catch (error: unknown) {

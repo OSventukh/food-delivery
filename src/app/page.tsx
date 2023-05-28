@@ -1,5 +1,5 @@
 import ProductsList from '@/components/Products/ProductsList';
-import RestrauntsList from '@/components/Restraunts/RestaurantsList';
+import RestaurantsList from '@/components/Restraunts/RestaurantsList';
 import { getData } from '@/utils/fetch';
 export default async function Home() {
 
@@ -8,7 +8,7 @@ export default async function Home() {
   console.log(productResult)
   return (
     <div style={{ display: 'flex', gap: '1rem'}}>
-      <RestrauntsList restaurants={restaurantsResult.restaurants} />
+      <RestaurantsList restaurants={restaurantsResult.restaurants} />
       <ProductsList products={productResult.products} />
     </div>
   );
