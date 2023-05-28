@@ -2,7 +2,6 @@ import { CartActionType } from '../provider/cart-enum';
 
 import type { CartAction, CartContextType, CartItem } from '@/types/context';
 
-
 const sumItems = (cartItems: CartItem[]) => {
   const totalQuantity = cartItems.reduce(
     (total, product) => total + product.quantity,
@@ -21,9 +20,20 @@ export const cartReducer = (
   switch (action.type) {
     case CartActionType.AddItem: {
 
+    
+      // prevent add product to cart from other restaurant
+      if (
+        state.restaurant &&
+        action.payload.restaurantId !== state.restaurant
+      ) {
+        return {
+          ...state,
+        };
+      }
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
       );
+
       if (existingItem) {
         // increase quantity of existing item
         const newStateItems = state.items.map((item) =>
@@ -43,6 +53,7 @@ export const cartReducer = (
       return {
         ...state,
         ...sumItems(newStateItems),
+        restaurant: action.payload.restaurantId,
         items: newStateItems,
       };
     }
@@ -67,31 +78,35 @@ export const cartReducer = (
       return {
         ...state,
         ...sumItems(newStateItems),
+        restaurant: newStateItems.length === 0 ? '' : state.restaurant,
         items: newStateItems,
       };
     }
 
     case CartActionType.RemoveItem: {
-      const newStateItems = state.items.filter((item) => item.id !== action.payload.id);
+      const newStateItems = state.items.filter(
+        (item) => item.id !== action.payload.id
+      );
       return {
         ...state,
         ...sumItems(newStateItems),
+        restaurant: newStateItems.length === 0 ? '' : state.restaurant,
         items: newStateItems,
       };
     }
 
     case CartActionType.Clear: {
-
       return {
         ...state,
         totalPrice: 0,
         totalQuantity: 0,
+        restaurant: '',
         items: [],
       };
     }
 
     case CartActionType.Init: {
-      return action.payload
+      return action.payload;
     }
     default:
       return state;

@@ -5,7 +5,7 @@ export default async function Home() {
 
   const restaurantsResult = await getData('/api/restaurants');
   const productResult = await getData('/api/products');
-  console.log(productResult)
+
   return (
     <div style={{ display: 'flex', gap: '1rem'}}>
       <RestaurantsList restaurants={restaurantsResult.restaurants} />

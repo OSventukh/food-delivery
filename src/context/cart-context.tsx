@@ -3,6 +3,7 @@ import type { CartContextType } from '@/types/context';
 
 const CartContext = createContext<CartContextType>({
   items: [],
+  restaurant: '',
   totalPrice: 0,
   totalQuantity: 0,
   addToCart: () => {},

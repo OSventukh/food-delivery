@@ -16,12 +16,14 @@ export type Product = {
   image: string;
 };
 
+
 export type CartItem = Product & {
   quantity: number;
 };
 
 export type CartContextType = {
   items: CartItem[];
+  restaurant: string;
   totalPrice: number;
   totalQuantity: number;
   addToCart: (payload: Product) => void;

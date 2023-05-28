@@ -66,7 +66,7 @@ export default function Checkout() {
       },
       order: [...items.map((item) => ({id: item.id, quantity: item.quantity}))]
     };
-    console.log(orderData)
+
   };
 
   return (
