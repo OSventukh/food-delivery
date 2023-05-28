@@ -8,8 +8,11 @@ Copy repository
 Create `.env` file in the root directory with the following variables
 
 `DATABASE_URL` - link to MongoDB 
+
 `NEXT_PUBLIC_SITE_URL` - URL of your site.
+
 `NEXTAUTH_URL` - URL of your site (you don't have to define this variable if deploy on Vercel)
+
 `NEXTAUTH_SECRET` - Your secret code for jwt authentication
 
 Install all dependencies with command
