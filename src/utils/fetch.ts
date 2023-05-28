@@ -7,7 +7,7 @@ export const getData = async (url: string) => {
 };
 
 export const sendData = async (url: string, data: any) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
+  const response = await fetch(process.env.SITE_URL + url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
