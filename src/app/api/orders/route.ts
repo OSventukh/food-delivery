@@ -53,7 +53,7 @@ export async function POST(request: Request) {
           phone: user.phone,
           email: user.email,
           address: {
-            city: process.env.CITY!,
+            city: 'Kyiv',
             street: user.address.street,
             house: user.address.house,
           },

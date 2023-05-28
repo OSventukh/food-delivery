@@ -38,13 +38,15 @@ restaurants:
 
 with data 
 
-  `{
+  ```bash
+  {
     name: Restaurant name
     address: {
       street: Street name,
       house: House number,
     }
-  }`
+  }
+  ```
 
 products:
 
@@ -52,10 +54,12 @@ products:
 
 with data 
 
-  `{
+  ```bash
+  {
     title: Product name
     description: Product description
     price: Product price
     image: Product image url
     restaurantId: id of restaurant 
-  }`
+  }
+  ```
