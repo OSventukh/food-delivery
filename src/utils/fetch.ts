@@ -1,5 +1,5 @@
 export const getData = async (url: string) => {
-  const response = await fetch(process.env.SITE_URL + url);
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url);
   if (!response.ok) {
     throw new Error('Failed to get data')
   }
