@@ -20,6 +20,7 @@ export const cartReducer = (
 ): CartContextType => {
   switch (action.type) {
     case CartActionType.AddItem: {
+
       const existingItem = state.items.find(
         (item) => item.id === action.payload.id
       );

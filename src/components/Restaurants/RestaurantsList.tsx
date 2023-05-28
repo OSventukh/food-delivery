@@ -1,19 +1,16 @@
 'use client';
 import Link from 'next/link';
 import List from '@mui/material/List';
-import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { getData } from '@/utils/fetch';
-import type { Restraunt } from '@/types/models';
+import type { Restaurant } from '@/types/models';
 export default function RestaurantsList({
   restaurants,
 }: {
-  restaurants: Restraunt[];
+  restaurants: Restaurant[];
 }) {
   return (
-    <Paper>
       <List sx={{ flexGrow: 1, width: '10rem' }}>
         {restaurants.length === 0 && <div>No restaurants</div>}
         {restaurants.length > 0 &&
@@ -25,6 +22,5 @@ export default function RestaurantsList({
             </ListItem>
           ))}
       </List>
-    </Paper>
   );
 }

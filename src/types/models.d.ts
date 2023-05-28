@@ -14,7 +14,7 @@ export type User = {
   orders: Order[]
 }
 
-export type Restraunt = {
+export type Restaurant = {
   id: string;
   name: string;
   address: Address;
@@ -27,8 +27,8 @@ export type Product = {
   description: string;
   price: string;
   orderItems: OrderItem[]
-  restraunt: Restraunt;
-  restrauntId: String;
+  restaurant: Restaurant;
+  restaurantId: string;
 }
 
 export type OrderItem = {

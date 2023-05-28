@@ -11,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <NavigationBar />
       <main>
-        <Container>{children}</Container>
+        {children}
       </main>
     </>
   );

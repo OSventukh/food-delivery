@@ -1,6 +1,6 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
-import type { Restraunt } from '@/types/models';
+import type { Restaurant } from '@/types/models';
 
 export async function GET(request: Request) {
   try {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const id = searchParams.get('id');
 
     if (id) {
-      const restaurant = await prisma.restraunt.findUnique({
+      const restaurant = await prisma.restaurant.findUnique({
         where: {
           id,
         },
@@ -18,7 +18,7 @@ export async function GET(request: Request) {
       });
       return NextResponse.json({ restaurant });
     }
-    const restaurants = await prisma.restraunt.findMany();
+    const restaurants = await prisma.restaurant.findMany();
     return NextResponse.json({ restaurants });
   } catch (error: unknown) {
     return NextResponse.json(
@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const { name, address }: Restraunt = await request.json();
+    const { name, address }: Restaurant = await request.json();
     if (!name || name.trim() === '')
       return NextResponse.json(
         { message: 'Name should not be an empty' },
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
-    const createdRestraunt = await prisma.restraunt.create({
+    const createdRestaurant = await prisma.restaurant.create({
       data: {
         name,
         address: {
@@ -63,8 +63,8 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(
       {
-        message: 'Restraunt was successfully created',
-        restraunt: createdRestraunt,
+        message: 'Restaurant was successfully created',
+        restaurant: createdRestaurant,
       },
       { status: 201 }
     );
@@ -86,7 +86,7 @@ export async function PATCH(request: Request) {
 
     const data = await request.json();
 
-    const updatedRestraunt = await prisma.restraunt.update({
+    const updatedRestaurant = await prisma.restaurant.update({
       where: {
         id,
       },
@@ -94,8 +94,8 @@ export async function PATCH(request: Request) {
     });
     return NextResponse.json(
       {
-        message: 'Restraunt was successfully updated',
-        restraunt: updatedRestraunt,
+        message: 'Restaurant was successfully updated',
+        restaurant: updatedRestaurant,
       },
       { status: 200 }
     );
@@ -115,14 +115,14 @@ export async function DELETE(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    await prisma.restraunt.delete({
+    await prisma.restaurant.delete({
       where: {
         id,
       },
     });
     return NextResponse.json(
       {
-        message: 'Restraunt was successfully deleted',
+        message: 'Restaurant was successfully deleted',
       },
       { status: 200 }
     );

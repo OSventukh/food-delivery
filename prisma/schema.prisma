@@ -26,7 +26,7 @@ model User {
   orders Order[]
 }
 
-model Restraunt {
+model Restaurant {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
   address Address
@@ -38,9 +38,10 @@ model Product {
   title String
   description String
   price Float
+  image String
   orderItems OrderItem[]
-  restraunt Restraunt @relation(fields: [restrauntId], references: [id])
-  restrauntId String @db.ObjectId
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String @db.ObjectId
 }
 
 model OrderItem {

@@ -1,5 +1,5 @@
 import ProductsList from '@/components/Products/ProductsList';
-import RestaurantsList from '@/components/Restraunts/RestaurantsList';
+import RestaurantsList from '@/components/Restaurants/RestaurantsList';
 import { getData } from '@/utils/fetch';
 export default async function Home() {
 
