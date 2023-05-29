@@ -1,6 +1,7 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
 import type { Restaurant } from '@/types/models';
+import { WorkLocation } from '@/utils/constant/city.enum';
 
 export async function GET(request: Request) {
   try {
@@ -14,7 +15,7 @@ export async function GET(request: Request) {
         },
         include: {
           products: true,
-        }
+        },
       });
       return NextResponse.json({ restaurant });
     }
@@ -37,11 +38,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
 
-    if (!address?.city)
-      return NextResponse.json(
-        { message: 'Please enter a city' },
-        { status: 400 }
-      );
     if (!address?.street)
       return NextResponse.json(
         { message: 'Please enter a street' },
@@ -57,7 +53,7 @@ export async function POST(request: Request) {
       data: {
         name,
         address: {
-          set: address,
+          set: { ...address, city: WorkLocation.Kyiv },
         },
       },
     });
@@ -87,7 +83,7 @@ export async function PATCH(request: Request) {
     if (!id) {
       return NextResponse.json(
         {
-          message: 'Id is incorect'
+          message: 'Id is incorect',
         },
         { status: 400 }
       );
@@ -127,7 +123,7 @@ export async function DELETE(request: Request) {
     if (!id) {
       return NextResponse.json(
         {
-          message: 'Id is incorect'
+          message: 'Id is incorect',
         },
         { status: 400 }
       );

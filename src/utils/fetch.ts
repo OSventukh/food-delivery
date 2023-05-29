@@ -1,8 +1,12 @@
 export const getData = async (url: string) => {
   const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url);
+
+  const result = await response.json();
+
   if (!response.ok) {
-    throw new Error('Failed to get data')
+    throw new Error(result?.message || 'Something went wrong');
   }
+
   return await response.json();
 };
 
@@ -12,10 +16,13 @@ export const sendData = async (url: string, data: any) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
-  })
+    body: JSON.stringify(data),
+  });
+
+  const result = await response.json();
+
   if (!response.ok) {
-    throw new Error('Failed to send data')
+    throw new Error(result?.message || 'Something went wrong');
   }
   return await response.json();
-}
+};

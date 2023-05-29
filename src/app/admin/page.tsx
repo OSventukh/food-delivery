@@ -1,6 +1,6 @@
-export default function AdminPage() {
-  
+import CreateRestaurant from "@/components/Admin/NewRestaurant/CreateRestaurant"
+export default async function AdminPage() {
   return (
-    <div>AdminPage</div>
+    <CreateRestaurant />
   )
 }
