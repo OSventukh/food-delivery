@@ -1,7 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import Layout from '@/components/Layout';
-import CartContextProvider from '@/provider/cart-provider';
+import ContexProvider from '@/provider/provider';
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/utils/next-auth';
 
@@ -22,9 +22,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <CartContextProvider>
+        <ContexProvider>
           <Layout session={session}>{children}</Layout>
-        </CartContextProvider>
+        </ContexProvider>
       </body>
     </html>
   );

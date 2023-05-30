@@ -6,15 +6,11 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { sendData } from '@/utils/fetch';
-import Snack from '@/components/UI/SnackBar';
+
 export default function CreateRestaurant() {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
 
   const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredName = event.target.value;
@@ -31,10 +27,7 @@ export default function CreateRestaurant() {
 
   const createRestaurantSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    setSuccessMessage('');
-    setSuccess(false);
-    setErrorMessage('');
-    setError(false);
+
     try {
       await sendData('/api/restaurants', {
         name: name,
@@ -43,24 +36,13 @@ export default function CreateRestaurant() {
           house: houseNumber,
         },
       });
-      setSuccessMessage('Restaurant was successfully created');
-      setSuccess(true);
+
     } catch (error) {
-      console.log(error)
-      setErrorMessage(
-        error instanceof Error ? error.message : 'Something went wrong'
-      );
-      setError(true);
     }
   };
 
   return (
     <Paper sx={{ p: '1rem 3rem' }}>
-      <Snack
-        show={error || success}
-        text={error ? errorMessage : success ? successMessage : ''}
-        type={error ? 'error' : 'success'}
-      />
       <Typography
         variant="h5"
         component="h2"

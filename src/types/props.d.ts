@@ -26,8 +26,10 @@ export type CheckoutDataProps = {
   onHouseNumber: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
+export type NotificationType = 'error' | 'warning' | 'info' | 'success';
+
 export type SnackBar = {
   show: boolean;
   text: string;
-  type: 'error' | 'warning' | 'info' | 'success';
+  type: NotificationType;
 };

@@ -17,7 +17,7 @@ let initialState = {
   clearCart: () => {},
 };
 
-export default function CartContextProvider({
+export default function CartProvider({
   children,
 }: {
   children: React.ReactNode;

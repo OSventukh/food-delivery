@@ -1,5 +1,7 @@
 import { CartActionType } from '@/provider/cart-enum';
 import { User } from './models';
+import { NotificationType } from './props';
+import { Dispatch } from 'react';
 
 export enum CartActionType {
   AddItem = 'ADD_TO_CART',
@@ -44,12 +46,15 @@ export type CartContextType = {
   clearCart: () => void;
 };
 
-e
-export type AuthContextType = {
-  user: LoggedUser | null;
-  login: (user: LoggedUser) => void;
-  logout: () => void;
-};
+export type Notification = {
+  show: boolean;
+  message: string;
+  type: NotificationType
+}
+export type NotificationContext = {
+  notification: Notification;
+  setNotification: Dispatch<SetStateAction<Notification>>;
+}
 
 export type AddItemAction = {
   type: CartActionType.AddItem;

@@ -6,6 +6,7 @@ export async function GET(request: Request) {
     const products = await prisma.product.findMany();
     return NextResponse.json({ products });
   } catch (error: unknown) {
+    console.log(error)
     return NextResponse.json(
       { message: 'Something went wrong' },
       { status: 500 }

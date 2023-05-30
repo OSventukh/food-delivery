@@ -7,11 +7,11 @@ export const getData = async (url: string) => {
     throw new Error(result?.message || 'Something went wrong');
   }
 
-  return await response.json();
+  return result;
 };
 
 export const sendData = async (url: string, data: any) => {
-  const response = await fetch(url, {
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,5 +24,5 @@ export const sendData = async (url: string, data: any) => {
   if (!response.ok) {
     throw new Error(result?.message || 'Something went wrong');
   }
-  return await response.json();
+  return result;
 };
