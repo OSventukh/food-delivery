@@ -51,9 +51,14 @@ export type Notification = {
   message: string;
   type: NotificationType
 }
+
 export type NotificationContext = {
   notification: Notification;
-  setNotification: Dispatch<SetStateAction<Notification>>;
+  setSuccess: (message: string) => void;
+  setError: (message: string) => void;
+  setWarning: (message: string) => void;
+  setInfo: (message: string) => void;
+  clearNotification: () => void;
 }
 
 export type AddItemAction = {

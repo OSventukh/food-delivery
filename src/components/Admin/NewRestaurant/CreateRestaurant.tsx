@@ -1,5 +1,6 @@
 'use client';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useContext } from 'react';
+import NotificationContext from '@/context/notification-context';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -11,6 +12,8 @@ export default function CreateRestaurant() {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
+
+  const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
 
   const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredName = event.target.value;
@@ -27,7 +30,7 @@ export default function CreateRestaurant() {
 
   const createRestaurantSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
-
+    clearNotification();
     try {
       await sendData('/api/restaurants', {
         name: name,
@@ -36,8 +39,9 @@ export default function CreateRestaurant() {
           house: houseNumber,
         },
       });
-
+      setSuccess('Restaurant was successfully created')
     } catch (error) {
+      setError(error instanceof Error ? error.message : 'Something went wrong')
     }
   };
 
