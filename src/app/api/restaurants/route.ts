@@ -40,12 +40,12 @@ export async function POST(request: Request) {
 
     if (!address?.street)
       return NextResponse.json(
-        { message: 'Please enter a street' },
+        { message: 'Please enter the street' },
         { status: 400 }
       );
     if (!address?.house)
       return NextResponse.json(
-        { message: 'Please enter a house' },
+        { message: 'Please enter the house number' },
         { status: 400 }
       );
 

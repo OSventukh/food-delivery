@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useState, useContext } from 'react';
 import NotificationContext from '@/context/notification-context';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { sendData } from '@/utils/fetch';
@@ -12,25 +12,36 @@ export default function CreateRestaurant() {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
+  const { setError, setSuccess, clearNotification } =
+    useContext(NotificationContext);
 
   const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredName = event.target.value;
     setName(enteredName);
   };
+
   const streetChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredStreet = event.target.value;
     setStreet(enteredStreet);
   };
+
   const houseNumberChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredHouseNumber = event.target.value;
     setHouseNumber(enteredHouseNumber);
   };
 
+  const clearForm = () => {
+    setName('');
+    setStreet('');
+    setHouseNumber('');
+  };
+
   const createRestaurantSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
     clearNotification();
+    setIsLoading(true);
     try {
       await sendData('/api/restaurants', {
         name: name,
@@ -39,9 +50,12 @@ export default function CreateRestaurant() {
           house: houseNumber,
         },
       });
-      setSuccess('Restaurant was successfully created')
+      setSuccess('Restaurant was successfully created');
+      clearForm();
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Something went wrong')
+      setError(error instanceof Error ? error.message : 'Something went wrong');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -69,6 +83,8 @@ export default function CreateRestaurant() {
           label="Name"
           variant="outlined"
           onChange={nameChangeHandler}
+          value={name}
+          size="small"
         />
         <Typography sx={{ textAlign: 'center' }}>Address</Typography>
         <TextField
@@ -76,15 +92,19 @@ export default function CreateRestaurant() {
           label="Street"
           variant="outlined"
           onChange={streetChangeHandler}
+          value={street}
+          size="small"
         />
         <TextField
           id="restaurant-house"
           label="House number"
           variant="outlined"
           onChange={houseNumberChangeHandler}
+          value={houseNumber}
+          size="small"
         />
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button type="submit">Create</Button>
+          <LoadingButton text='Create' loading={isLoading} />
         </Box>
       </Box>
     </Paper>
