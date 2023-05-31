@@ -9,14 +9,14 @@ import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { sendData, getData } from '@/utils/fetch';
-
+import type { Restaurant } from '@/types/models';
 export default function NewProduct() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [image, setImage] = useState('');
-  const [restaurant, setRestarant] = useState('');
-  const [restaurantList, setRestarantList] = useState([]);
+  const [restaurant, setRestarant] = useState<Restaurant | null>(null);
+  const [restaurantList, setRestarantList] = useState<Restaurant[]>([]);
   const [openRestaurant, setOpenRestaurant] = useState(false);
   const [loadingRestaurant, setLoadingRestaurant] = useState(false);
 
@@ -25,15 +25,28 @@ export default function NewProduct() {
   const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
 
   useEffect(() => {
+    let active = true;
+
+    if (!openRestaurant) {
+      return undefined;
+    }
+
+
     (async() => {
       try {
-        const result = await getData('/api/restaurant');
-        setRestarantList(result.restaurants) 
+        setLoadingRestaurant(true)
+        const result = await getData('/api/restaurants');
+        active && setRestarantList(result.restaurants) 
       } catch (error) {
         setError(error instanceof Error ? error.message : 'Something went wrong')
+      } finally {
+        setLoadingRestaurant(false)
+      }
+      () => {
+        active = false;
       }
     })()
-  }, [setError])
+  }, [setError, openRestaurant])
   
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredTitle = event.target.value.trim();
@@ -55,9 +68,8 @@ export default function NewProduct() {
     setImage(enteredImage);
   };
 
-  const restaurantChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const enteredRestaurant = event.target.value.trim();
-    setRestarant(enteredRestaurant);
+  const restaurantChangeHandler = (event: React.SyntheticEvent, value: Restaurant | null) => {
+    setRestarant(value);
   };
 
   const clearForm = () => {
@@ -65,7 +77,7 @@ export default function NewProduct() {
     setDescription('');
     setPrice('');
     setImage('');
-    setRestarant('');
+    setRestarant(null);
   };
 
   const createRestaurantSubmitHandler = async (event: FormEvent) => {
@@ -78,7 +90,7 @@ export default function NewProduct() {
         description,
         price,
         image,
-        restaurant,
+        restaurant: restaurant?.id,
       });
       setSuccess('Restaurant was successfully created');
       clearForm();
@@ -110,23 +122,25 @@ export default function NewProduct() {
       >
         <Autocomplete
           id="product-restaurant"
-          sx={{ width: 300 }}
           open={openRestaurant}
+          size='small'
           onOpen={() => {
             setOpenRestaurant(true);
           }}
           onClose={() => {
             setOpenRestaurant(false);
           }}
-          isOptionEqualToValue={(option, value) => restaurantList.title === value.title}
-          getOptionLabel={(option) => restaurantList.title}
+          value={restaurant}
+          onChange={restaurantChangeHandler}
+          isOptionEqualToValue={(option, value) => option.name === value.name}
+          getOptionLabel={(option) => option.name}
           options={restaurantList}
           loading={loadingRestaurant}
           renderInput={(params) => (
             <TextField
-              {...params}
-              label="Asynchronous"
-              InputProps={{
+            {...params}
+            label="Restaurant"
+            InputProps={{
                 ...params.InputProps,
                 endAdornment: (
                   <>
