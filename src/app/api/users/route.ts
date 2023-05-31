@@ -1,6 +1,6 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
-import type { User } from '@/types/models';
+import { HttpError, errorResponse } from '@/utils/error';
 
 export async function GET(request: Request) {
   try {
@@ -29,10 +29,7 @@ export async function GET(request: Request) {
     const users = await prisma.user.findMany();
     return NextResponse.json({ users });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { message: 'Something went wrong' },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
@@ -51,13 +48,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
@@ -67,12 +58,7 @@ export async function PATCH(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        {
-          message: 'Id is incorect'
-        },
-        { status: 400 }
-      );
+      throw new HttpError('A required search parameter id was not provided', 400)
     }
 
     const data = await request.json();
@@ -91,13 +77,7 @@ export async function PATCH(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
@@ -107,12 +87,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        {
-          message: 'Id is incorect'
-        },
-        { status: 400 }
-      );
+      throw new HttpError('A required search parameter id was not provided', 400)
     }
 
     await prisma.user.delete({
@@ -127,12 +102,6 @@ export async function DELETE(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }

@@ -2,6 +2,7 @@ import { prisma } from '@/utils/prisma';
 import { NextResponse } from 'next/server';
 import type { Restaurant } from '@/types/models';
 import { WorkLocation } from '@/utils/constant/city.enum';
+import { HttpError, errorResponse } from '@/utils/error';
 
 export async function GET(request: Request) {
   try {
@@ -22,32 +23,24 @@ export async function GET(request: Request) {
     const restaurants = await prisma.restaurant.findMany();
     return NextResponse.json({ restaurants });
   } catch (error: unknown) {
-    return NextResponse.json(
-      { message: 'Something went wrong' },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
 export async function POST(request: Request) {
   try {
     const { name, address }: Restaurant = await request.json();
-    if (!name || name.trim() === '')
-      return NextResponse.json(
-        { message: 'Name should not be an empty' },
-        { status: 400 }
-      );
+    if (!name || name.trim() === '') {
+      throw new HttpError('Please, enter the restaurant name', 400);
+    }
 
-    if (!address?.street)
-      return NextResponse.json(
-        { message: 'Please enter the street' },
-        { status: 400 }
-      );
-    if (!address?.house)
-      return NextResponse.json(
-        { message: 'Please enter the house number' },
-        { status: 400 }
-      );
+    if (!address?.street) {
+      throw new HttpError('Please enter the street', 400);
+    }
+
+    if (!address?.house) {
+      throw new HttpError('Please, enter the house number', 404);
+    }
 
     const createdRestaurant = await prisma.restaurant.create({
       data: {
@@ -65,13 +58,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
@@ -81,12 +68,7 @@ export async function PATCH(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        {
-          message: 'Id is incorect',
-        },
-        { status: 400 }
-      );
+      throw new HttpError('A required search parameter id was not provided', 400)
     }
 
     const data = await request.json();
@@ -105,13 +87,7 @@ export async function PATCH(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
 
@@ -121,12 +97,7 @@ export async function DELETE(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      return NextResponse.json(
-        {
-          message: 'Id is incorect',
-        },
-        { status: 400 }
-      );
+      throw new HttpError('A required search parameter id was not provided', 400)
     }
 
     await prisma.restaurant.delete({
@@ -141,12 +112,6 @@ export async function DELETE(request: Request) {
       { status: 200 }
     );
   } catch (error) {
-    return NextResponse.json(
-      {
-        message:
-          error instanceof Error ? error.message : 'Something went wrong',
-      },
-      { status: 500 }
-    );
+    return errorResponse(error);
   }
 }
