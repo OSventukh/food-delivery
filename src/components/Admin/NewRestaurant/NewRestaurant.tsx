@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { sendData } from '@/utils/fetch';
 
-export default function CreateRestaurant() {
+export default function NewRestaurant() {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');

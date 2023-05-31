@@ -1,7 +1,5 @@
-import React from 'react'
+import NewReataurant from '@/components/Admin/NewRestaurant/NewRestaurant';
 
 export default function newRestaurantPage() {
-  return (
-    <div>newRestaurantPage</div>
-  )
+  return <NewReataurant />;
 }

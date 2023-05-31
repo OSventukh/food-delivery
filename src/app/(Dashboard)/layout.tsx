@@ -1,6 +1,7 @@
 import '../globals.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/next-auth';
+import NotificationProvider from '@/provider/notification-provider';
 
 import AdminLayout from '@/components/Admin/Layout/AdminLayout';
 export const metadata = {
@@ -13,12 +14,14 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">
       <body>
-        <AdminLayout session={session}>{children}</AdminLayout>
+        <NotificationProvider>
+          <AdminLayout session={session}>{children}</AdminLayout>
+        </NotificationProvider>
       </body>
     </html>
   );
