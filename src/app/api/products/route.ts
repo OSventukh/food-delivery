@@ -16,7 +16,14 @@ export async function POST(request: Request) {
     const product = await request.json();
 
     const createdProduct = await prisma.product.create({
-      data: product,
+      data: {
+        ...product,
+        restaurant: {
+          connect: {
+            id: product.restaurant,
+          },
+        },
+      },
     });
     return NextResponse.json(
       {
@@ -36,7 +43,10 @@ export async function PATCH(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      throw new HttpError('A required search parameter id was not provided', 400)
+      throw new HttpError(
+        'A required search parameter id was not provided',
+        400
+      );
     }
 
     const data = await request.json();
@@ -65,7 +75,10 @@ export async function DELETE(request: Request) {
     const id = searchParams.get('id');
 
     if (!id) {
-      throw new HttpError('A required search parameter id was not provided', 400)
+      throw new HttpError(
+        'A required search parameter id was not provided',
+        400
+      );
     }
 
     await prisma.product.delete({

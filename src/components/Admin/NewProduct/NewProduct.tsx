@@ -10,10 +10,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { sendData, getData } from '@/utils/fetch';
 import type { Restaurant } from '@/types/models';
+
 export default function NewProduct() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState(0);
   const [image, setImage] = useState('');
   const [restaurant, setRestarant] = useState<Restaurant | null>(null);
   const [restaurantList, setRestarantList] = useState<Restaurant[]>([]);
@@ -49,22 +50,22 @@ export default function NewProduct() {
   }, [setError, openRestaurant])
   
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const enteredTitle = event.target.value.trim();
+    const enteredTitle = event.target.value;
     setTitle(enteredTitle);
   };
 
   const descriptionChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const enteretDescription = event.target.value.trim();
+    const enteretDescription = event.target.value;
     setDescription(enteretDescription);
   };
 
   const priceChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const enteretPrice = event.target.value.trim();
+    const enteretPrice = +event.target.value;
     setPrice(enteretPrice);
   };
 
   const imageChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    const enteredImage = event.target.value.trim();
+    const enteredImage = event.target.value;
     setImage(enteredImage);
   };
 
@@ -75,7 +76,7 @@ export default function NewProduct() {
   const clearForm = () => {
     setTitle('');
     setDescription('');
-    setPrice('');
+    setPrice(0);
     setImage('');
     setRestarant(null);
   };
@@ -85,14 +86,14 @@ export default function NewProduct() {
     clearNotification();
     setIsLoading(true);
     try {
-      await sendData('/api/restaurants', {
+      await sendData('/api/products', {
         title,
         description,
         price,
         image,
         restaurant: restaurant?.id,
       });
-      setSuccess('Restaurant was successfully created');
+      setSuccess('Product was successfully created');
       clearForm();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
