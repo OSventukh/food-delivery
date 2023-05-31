@@ -1,5 +1,5 @@
 'use client';
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useCallback, useMemo } from 'react';
 import CartContext from '@/context/cart-context';
 import { CartActionType } from './cart-enum';
 import { cartReducer } from '@/reducers/cart-reducer';
@@ -39,27 +39,27 @@ export default function CartProvider({
     dispatch({ type: CartActionType.Init, payload });
   };
 
-  const addToCart = (payload: Product) => {
+  const addToCart = useCallback((payload: Product) => {
     dispatch({ type: CartActionType.AddItem, payload });
-  };
+  }, []);
 
-  const increase = (payload: Product) => {
+  const increase = useCallback((payload: Product) => {
     dispatch({ type: CartActionType.Increase, payload });
-  };
+  }, []);
 
-  const decrease = (payload: Product) => {
+  const decrease = useCallback((payload: Product) => {
     dispatch({ type: CartActionType.Decrease, payload });
-  };
+  }, []);
 
-  const removeFromCart = (payload: Product) => {
+  const removeFromCart = useCallback((payload: Product) => {
     dispatch({ type: CartActionType.RemoveItem, payload });
-  };
+  }, []);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     dispatch({ type: CartActionType.Clear });
-  };
+  }, []);
 
-  const value = {
+  const value = useMemo(() => ({
     items: state.items,
     totalPrice: state.totalPrice,
     restaurant: state.restaurant,
@@ -69,7 +69,7 @@ export default function CartProvider({
     decrease,
     removeFromCart,
     clearCart,
-  };
+  }), [addToCart, decrease, increase, removeFromCart, clearCart, state]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

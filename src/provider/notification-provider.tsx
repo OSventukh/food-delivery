@@ -13,45 +13,45 @@ export default function NotificationProvider({
     type: 'success',
   });
 
-  const setError = (message: string) => {
+  const setError = useCallback((message: string) => {
     setNotification({
       show: true,
       message,
       type: 'error',
     });
-  };
+  }, []);
 
-  const setSuccess = (message: string) => {
+  const setSuccess = useCallback((message: string) => {
     setNotification({
       show: true,
       message,
       type: 'success',
     });
-  };
+  }, []);
 
-  const setWarning = (message: string) => {
+  const setWarning = useCallback((message: string) => {
     setNotification({
       show: true,
       message,
       type: 'warning',
     });
-  };
+  },[]);
 
-  const setInfo = (message: string) => {
+  const setInfo = useCallback((message: string) => {
     setNotification({
       show: true,
       message,
       type: 'info',
     });
-  };
+  }, []);
 
-  const clearNotification = () => {
+  const clearNotification = useCallback(() => {
     setNotification({
       show: false,
       message: '',
       type: 'success',
     });
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -62,7 +62,7 @@ export default function NotificationProvider({
       setInfo,
       clearNotification,
     }),
-    [notification]
+    [notification, setSuccess, setError, setWarning, setInfo, clearNotification]
   );
 
   return (
