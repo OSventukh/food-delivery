@@ -7,6 +7,7 @@ import { authOptions } from '@/utils/next-auth';
 
 export default async function MyOrdersPage() {
   const session = await getServerSession(authOptions)
+
   if (!session) {
     redirect('/')
   }
