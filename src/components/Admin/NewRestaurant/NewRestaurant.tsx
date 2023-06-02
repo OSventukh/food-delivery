@@ -6,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 import { sendData } from '@/utils/fetch';
 
 export default function NewRestaurant() {
@@ -60,53 +61,55 @@ export default function NewRestaurant() {
   };
 
   return (
-    <Paper sx={{ p: '1rem 3rem' }}>
-      <Typography
-        variant="h5"
-        component="h2"
-        sx={{ textAlign: 'center', mb: '2rem' }}
-      >
-        New Restaurant
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={createRestaurantSubmitHandler}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <TextField
-          id="restaurant-name"
-          label="Name"
-          variant="outlined"
-          onChange={nameChangeHandler}
-          value={name}
-          size="small"
-        />
-        <Typography sx={{ textAlign: 'center' }}>Address</Typography>
-        <TextField
-          id="restaurant-street"
-          label="Street"
-          variant="outlined"
-          onChange={streetChangeHandler}
-          value={street}
-          size="small"
-        />
-        <TextField
-          id="restaurant-house"
-          label="House number"
-          variant="outlined"
-          onChange={houseNumberChangeHandler}
-          value={houseNumber}
-          size="small"
-        />
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <LoadingButton text='Create' loading={isLoading} />
+    <Container>
+      <Paper sx={{ p: '1rem 3rem' }}>
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{ textAlign: 'center', mb: '2rem' }}
+        >
+          New Restaurant
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={createRestaurantSubmitHandler}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            justifyContent: 'center',
+          }}
+        >
+          <TextField
+            id="restaurant-name"
+            label="Name"
+            variant="outlined"
+            onChange={nameChangeHandler}
+            value={name}
+            size="small"
+          />
+          <Typography sx={{ textAlign: 'center' }}>Address</Typography>
+          <TextField
+            id="restaurant-street"
+            label="Street"
+            variant="outlined"
+            onChange={streetChangeHandler}
+            value={street}
+            size="small"
+          />
+          <TextField
+            id="restaurant-house"
+            label="House number"
+            variant="outlined"
+            onChange={houseNumberChangeHandler}
+            value={houseNumber}
+            size="small"
+          />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <LoadingButton text="Create" loading={isLoading} />
+          </Box>
         </Box>
-      </Box>
-    </Paper>
+      </Paper>
+    </Container>
   );
 }

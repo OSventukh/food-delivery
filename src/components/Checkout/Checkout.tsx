@@ -9,6 +9,7 @@ import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
 import { sendData } from '@/utils/fetch';
 import Snack from '../UI/SnackBar';
+import Container from '@mui/material/Container';
 
 export default function Checkout() {
   const [firstName, setFirstName] = useState('');
@@ -96,33 +97,35 @@ export default function Checkout() {
   };
 
   return (
-    <Paper
-      component="form"
-      onSubmit={checkoutSubmitHandler}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        p: '1rem 2rem',
-      }}
-    >
-      <Grid container>
-        <CheckoutData
-          onFirstName={firstNameChangeHandler}
-          onLastName={lastNameChangeHandler}
-          onEmail={emailChangeHandler}
-          onPhone={phoneChangeHandler}
-          onStreet={streetChangeHandler}
-          onHouseNumber={houseNumberChangeHandler}
-        />
-        <CheckoutOrder />
-      </Grid>
-      <Button type="submit">Submit</Button>
+    <Container>
+      <Paper
+        component="form"
+        onSubmit={checkoutSubmitHandler}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          p: '1rem 2rem',
+        }}
+      >
+        <Grid container>
+          <CheckoutData
+            onFirstName={firstNameChangeHandler}
+            onLastName={lastNameChangeHandler}
+            onEmail={emailChangeHandler}
+            onPhone={phoneChangeHandler}
+            onStreet={streetChangeHandler}
+            onHouseNumber={houseNumberChangeHandler}
+          />
+          <CheckoutOrder />
+        </Grid>
+        <Button type="submit">Submit</Button>
 
-      <Snack
-        show={error || success}
-        text={error ? errorMessage : success ? successMessage : ''}
-        type={error ? 'error' : 'success'}
-      />
-    </Paper>
+        <Snack
+          show={error || success}
+          text={error ? errorMessage : success ? successMessage : ''}
+          type={error ? 'error' : 'success'}
+        />
+      </Paper>
+    </Container>
   );
 }

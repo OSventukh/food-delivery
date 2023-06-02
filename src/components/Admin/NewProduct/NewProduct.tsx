@@ -7,6 +7,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { sendData, getData } from '@/utils/fetch';
 import type { Restaurant } from '@/types/models';
@@ -23,7 +24,8 @@ export default function NewProduct() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
+  const { setError, setSuccess, clearNotification } =
+    useContext(NotificationContext);
 
   useEffect(() => {
     let active = true;
@@ -32,23 +34,24 @@ export default function NewProduct() {
       return undefined;
     }
 
-
-    (async() => {
+    (async () => {
       try {
-        setLoadingRestaurant(true)
+        setLoadingRestaurant(true);
         const result = await getData('/api/restaurants');
-        active && setRestarantList(result.restaurants) 
+        active && setRestarantList(result.restaurants);
       } catch (error) {
-        setError(error instanceof Error ? error.message : 'Something went wrong')
+        setError(
+          error instanceof Error ? error.message : 'Something went wrong'
+        );
       } finally {
-        setLoadingRestaurant(false)
+        setLoadingRestaurant(false);
       }
       () => {
         active = false;
-      }
-    })()
-  }, [setError, openRestaurant])
-  
+      };
+    })();
+  }, [setError, openRestaurant]);
+
   const titleChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredTitle = event.target.value;
     setTitle(enteredTitle);
@@ -69,7 +72,10 @@ export default function NewProduct() {
     setImage(enteredImage);
   };
 
-  const restaurantChangeHandler = (event: React.SyntheticEvent, value: Restaurant | null) => {
+  const restaurantChangeHandler = (
+    event: React.SyntheticEvent,
+    value: Restaurant | null
+  ) => {
     setRestarant(value);
   };
 
@@ -103,96 +109,98 @@ export default function NewProduct() {
   };
 
   return (
-    <Paper sx={{ p: '1rem 3rem' }}>
-      <Typography
-        variant="h5"
-        component="h2"
-        sx={{ textAlign: 'center', mb: '2rem' }}
-      >
-        New Product
-      </Typography>
-      <Box
-        component="form"
-        onSubmit={createRestaurantSubmitHandler}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '1rem',
-          justifyContent: 'center',
-        }}
-      >
-        <Autocomplete
-          id="product-restaurant"
-          open={openRestaurant}
-          size='small'
-          onOpen={() => {
-            setOpenRestaurant(true);
+    <Container>
+      <Paper sx={{ p: '1rem 3rem' }}>
+        <Typography
+          variant="h5"
+          component="h2"
+          sx={{ textAlign: 'center', mb: '2rem' }}
+        >
+          New Product
+        </Typography>
+        <Box
+          component="form"
+          onSubmit={createRestaurantSubmitHandler}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem',
+            justifyContent: 'center',
           }}
-          onClose={() => {
-            setOpenRestaurant(false);
-          }}
-          value={restaurant}
-          onChange={restaurantChangeHandler}
-          isOptionEqualToValue={(option, value) => option.name === value.name}
-          getOptionLabel={(option) => option.name}
-          options={restaurantList}
-          loading={loadingRestaurant}
-          renderInput={(params) => (
-            <TextField
-            {...params}
-            label="Restaurant"
-            InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>
-                    {loadingRestaurant ? (
-                      <CircularProgress color="inherit" size={20} />
-                    ) : null}
-                    {params.InputProps.endAdornment}
-                  </>
-                ),
-              }}
-            />
-          )}
-        />
-        <TextField
-          id="product-title"
-          label="Title"
-          variant="outlined"
-          onChange={titleChangeHandler}
-          value={title}
-          size="small"
-        />
-        <TextField
-          id="product-description"
-          label="Description"
-          variant="outlined"
-          onChange={descriptionChangeHandler}
-          value={description}
-          size="small"
-        />
-        <TextField
-          id="product-price"
-          label="Price"
-          type="number"
-          variant="outlined"
-          onChange={priceChangeHandler}
-          value={price}
-          size="small"
-        />
-        <TextField
-          id="product-image"
-          label="Image (URL)"
-          variant="outlined"
-          onChange={imageChangeHandler}
-          value={image}
-          size="small"
-        />
+        >
+          <Autocomplete
+            id="product-restaurant"
+            open={openRestaurant}
+            size="small"
+            onOpen={() => {
+              setOpenRestaurant(true);
+            }}
+            onClose={() => {
+              setOpenRestaurant(false);
+            }}
+            value={restaurant}
+            onChange={restaurantChangeHandler}
+            isOptionEqualToValue={(option, value) => option.name === value.name}
+            getOptionLabel={(option) => option.name}
+            options={restaurantList}
+            loading={loadingRestaurant}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Restaurant"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loadingRestaurant ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  ),
+                }}
+              />
+            )}
+          />
+          <TextField
+            id="product-title"
+            label="Title"
+            variant="outlined"
+            onChange={titleChangeHandler}
+            value={title}
+            size="small"
+          />
+          <TextField
+            id="product-description"
+            label="Description"
+            variant="outlined"
+            onChange={descriptionChangeHandler}
+            value={description}
+            size="small"
+          />
+          <TextField
+            id="product-price"
+            label="Price"
+            type="number"
+            variant="outlined"
+            onChange={priceChangeHandler}
+            value={price}
+            size="small"
+          />
+          <TextField
+            id="product-image"
+            label="Image (URL)"
+            variant="outlined"
+            onChange={imageChangeHandler}
+            value={image}
+            size="small"
+          />
 
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <LoadingButton text="Create" loading={isLoading} />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <LoadingButton text="Create" loading={isLoading} />
+          </Box>
         </Box>
-      </Box>
-    </Paper>
+      </Paper>
+    </Container>
   );
 }
