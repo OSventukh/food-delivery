@@ -7,8 +7,9 @@ import CheckoutData from './CheckoutData';
 import CheckoutOrder from './CheckoutOrder';
 import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
+import NotificationContext from '@/context/notification-context';
+
 import { sendData } from '@/utils/fetch';
-import Snack from '../UI/SnackBar';
 import Container from '@mui/material/Container';
 
 export default function Checkout() {
@@ -18,13 +19,11 @@ export default function Checkout() {
   const [phone, setPhone] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+
   const router = useRouter();
 
   const { items, clearCart } = useContext(CartContext);
+  const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
   const firstNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -63,10 +62,8 @@ export default function Checkout() {
 
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
-    setSuccess(false);
-    setSuccessMessage('');
-    setError(false);
-    setErrorMessage('');
+    clearNotification();
+
     const orderData = {
       user: {
         firstname: firstName,
@@ -84,15 +81,11 @@ export default function Checkout() {
     };
     try {
       await sendData('/api/orders', orderData);
-      setSuccess(true);
-      setSuccessMessage('Order successfully created');
+      setSuccess('Order successfully created');
       clearCart();
       router.replace('/');
     } catch (error) {
-      setError(true);
-      setErrorMessage(
-        error instanceof Error ? error.message : 'Order not created'
-      );
+      setError( error instanceof Error ? error.message : 'Order not created');
     }
   };
 
@@ -119,12 +112,6 @@ export default function Checkout() {
           <CheckoutOrder />
         </Grid>
         <Button type="submit">Submit</Button>
-
-        <Snack
-          show={error || success}
-          text={error ? errorMessage : success ? successMessage : ''}
-          type={error ? 'error' : 'success'}
-        />
       </Paper>
     </Container>
   );
