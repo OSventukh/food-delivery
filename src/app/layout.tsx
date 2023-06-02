@@ -1,4 +1,4 @@
-import '../globals.css';
+import './globals.css';
 import { Inter } from 'next/font/google';
 import Layout from '@/components/Layout';
 import ContexProvider from '@/provider/provider';
