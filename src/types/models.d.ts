@@ -1,3 +1,5 @@
+import { Role } from "@prisma/client";
+
 export type Address = {
   city: string;
   street: string;
@@ -11,6 +13,7 @@ export type User = {
   lastname?: string;
   phone: string;
   address: Address;
+  role: Role;
   orders: Order[];
 };
 

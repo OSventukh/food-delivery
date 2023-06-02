@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { sendData } from './fetch';
+import { User } from '@/types/models';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -34,7 +35,7 @@ export const authOptions: NextAuthOptions = {
   
         return {
           ...token,
-          user: user,
+          user: user as User,
         };
       }
       return token;
