@@ -20,6 +20,7 @@ export async function GET(request: Request) {
       });
       return NextResponse.json({ restaurant });
     }
+
     const restaurants = await prisma.restaurant.findMany();
     return NextResponse.json({ restaurants });
   } catch (error: unknown) {
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
         },
       },
     });
+  
     return NextResponse.json(
       {
         message: 'Restaurant was successfully created',

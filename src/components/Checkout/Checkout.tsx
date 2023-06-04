@@ -8,7 +8,7 @@ import CheckoutOrder from './CheckoutOrder';
 import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
 import NotificationContext from '@/context/notification-context';
-
+import getLocation from '@/utils/location';
 import { sendData } from '@/utils/fetch';
 import Container from '@mui/material/Container';
 
@@ -60,10 +60,11 @@ export default function Checkout() {
     setHouseNumber(value);
   };
 
+
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     clearNotification();
-
+    await getLocation('7В, проспект Миколи Бажана, Київ, UA')
     const orderData = {
       user: {
         firstname: firstName,
