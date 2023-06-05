@@ -11,7 +11,7 @@ import NotificationContext from '@/context/notification-context';
 import getLocation from '@/utils/location';
 import { sendData } from '@/utils/fetch';
 import Container from '@mui/material/Container';
-
+import Map from '../Map';
 export default function Checkout() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -23,7 +23,8 @@ export default function Checkout() {
   const router = useRouter();
 
   const { items, clearCart } = useContext(CartContext);
-  const { setError, setSuccess, clearNotification } = useContext(NotificationContext);
+  const { setError, setSuccess, clearNotification } =
+    useContext(NotificationContext);
   const firstNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -60,11 +61,10 @@ export default function Checkout() {
     setHouseNumber(value);
   };
 
-
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     clearNotification();
-    await getLocation('7В, проспект Миколи Бажана, Київ, UA')
+    await getLocation('7В, проспект Миколи Бажана, Київ, UA');
     const orderData = {
       user: {
         firstname: firstName,
@@ -86,7 +86,7 @@ export default function Checkout() {
       clearCart();
       router.replace('/');
     } catch (error) {
-      setError( error instanceof Error ? error.message : 'Order not created');
+      setError(error instanceof Error ? error.message : 'Order not created');
     }
   };
 
@@ -101,7 +101,17 @@ export default function Checkout() {
           p: '1rem 2rem',
         }}
       >
-        <Grid container>
+        <Grid container justifyContent='center'>
+          <Grid item display="flex" justifyContent='center'>
+            <Map
+              center={{
+                lat: parseFloat('50,428435709353245'),
+                lng: parseFloat('30,564635998273676'),
+              }}
+              zoom={13}
+              sx={{ maxWidth: '80%', width: '30rem', height: '100%' }}
+            />
+          </Grid>
           <CheckoutData
             onFirstName={firstNameChangeHandler}
             onLastName={lastNameChangeHandler}
