@@ -8,7 +8,7 @@ import type { Product, CartContextType } from '@/types/context';
 let initialState = {
   items: [],
   totalPrice: 0,
-  restaurant: '',
+  restaurant: null,
   totalQuantity: 0,
   addToCart: () => {},
   increase: () => {},
