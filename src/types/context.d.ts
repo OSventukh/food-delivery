@@ -1,5 +1,5 @@
 import { CartActionType } from '@/provider/cart-enum';
-import { User } from './models';
+import { Restaurant, User } from './models';
 import { NotificationType } from './props';
 import { Dispatch } from 'react';
 
@@ -36,7 +36,7 @@ export type CartItem = Product & {
 
 export type CartContextType = {
   items: CartItem[];
-  restaurant: string;
+  restaurant: Restaurant | null;
   totalPrice: number;
   totalQuantity: number;
   addToCart: (payload: Product) => void;

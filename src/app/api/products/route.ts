@@ -4,7 +4,11 @@ import { HttpError, errorResponse } from '@/utils/error';
 
 export async function GET(request: Request) {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      include: {
+        restaurant: true
+      }
+    });
     return NextResponse.json({ products });
   } catch (error: unknown) {
     return errorResponse(error);

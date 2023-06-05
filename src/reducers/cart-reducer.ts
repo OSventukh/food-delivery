@@ -19,12 +19,10 @@ export const cartReducer = (
 ): CartContextType => {
   switch (action.type) {
     case CartActionType.AddItem: {
-
-    
       // prevent add product to cart from other restaurant
       if (
         state.restaurant &&
-        action.payload.restaurantId !== state.restaurant
+        action.payload.restaurant.id !== state.restaurant.id
       ) {
         return {
           ...state,
@@ -53,7 +51,7 @@ export const cartReducer = (
       return {
         ...state,
         ...sumItems(newStateItems),
-        restaurant: action.payload.restaurantId,
+        restaurant: action.payload.restaurant,
         items: newStateItems,
       };
     }
@@ -78,7 +76,7 @@ export const cartReducer = (
       return {
         ...state,
         ...sumItems(newStateItems),
-        restaurant: newStateItems.length === 0 ? '' : state.restaurant,
+        restaurant: newStateItems.length === 0 ? null : state.restaurant,
         items: newStateItems,
       };
     }
@@ -90,7 +88,7 @@ export const cartReducer = (
       return {
         ...state,
         ...sumItems(newStateItems),
-        restaurant: newStateItems.length === 0 ? '' : state.restaurant,
+        restaurant: newStateItems.length === 0 ? null : state.restaurant,
         items: newStateItems,
       };
     }
@@ -100,7 +98,7 @@ export const cartReducer = (
         ...state,
         totalPrice: 0,
         totalQuantity: 0,
-        restaurant: '',
+        restaurant: null,
         items: [],
       };
     }
