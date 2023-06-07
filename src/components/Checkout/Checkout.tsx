@@ -21,7 +21,7 @@ export default function Checkout({ session }: { session: Session | null }) {
   const [phone, setPhone] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
-  console.log('session', session);
+
   const [restaurantLocation, setRestaurantLocation] =
     useState<google.maps.LatLngLiteral>();
   const [customerLocation, setCustomerLocation] =

@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { SxProps } from '@mui/system';
 import Box from '@mui/material/Box';
+import NotificationContext from '@/context/notification-context';
 
 export default function GoogleMap({
   children,
@@ -20,6 +21,8 @@ export default function GoogleMap({
   const infoWindowRef = useRef<google.maps.InfoWindow>();
   const directionsServiceRef = useRef<google.maps.DirectionsService>();
   const directionsRendererRef = useRef<google.maps.DirectionsRenderer>();
+
+  const { setError } = useContext(NotificationContext);
 
   useEffect(() => {
     if (mapRef.current && !map) {
@@ -94,12 +97,12 @@ export default function GoogleMap({
               infoWindowRef.current = infoWindow;
             }
           } else {
-            console.error(`error fetching directions ${result}`);
+            setError(`error fetching directions ${result}`);
           }
         }
       );
     }
-  }, [map, markersPosition]);
+  }, [map, markersPosition, setError]);
 
   useEffect(() => {
     // map positioning relative to markers

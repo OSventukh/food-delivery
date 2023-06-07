@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import ListItemText from '@mui/material/ListItemText';
 
 export default function UserOders({ items: orders }: { items: any }) {
-  console.log(orders);
+
   return (
     <Container>
       <Paper

@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 export default function Cart() {
   const { items } = useContext(CartContext);
   return (
-    <Container>
+    <Container sx={{ mt: '5rem' }}>
       <Paper sx={{ p: '1rem 2rem' }}>
         <CartList />
         <Box sx={{ display: 'flex', justifyContent: 'end', mt: '1rem' }}>
