@@ -62,6 +62,7 @@ export default function GoogleMap({
         (result, status) => {
           if (status === google.maps.DirectionsStatus.OK) {
             directionsRendererRef.current?.setDirections(result);
+
             // getting the travel time
             const route = result?.routes[0];
 
@@ -76,6 +77,7 @@ export default function GoogleMap({
                 infoWindowRef.current.close();
               }
 
+              //  create info window instance
               const infoWindow = new google.maps.InfoWindow({
                 disableAutoPan: true,
               });

@@ -69,10 +69,12 @@ export default function Checkout() {
 
   useEffect(() => {
     (async () => {
-      const restaurantLocation = await getLocation(
-        `${restaurant?.address.house} ${restaurant?.address.street}, ${restaurant?.address.city}`
-      );
-      setRestaurantLocation(restaurantLocation);
+      if (restaurant) {
+        const restaurantLocation = await getLocation(
+          `${restaurant?.address.house} ${restaurant?.address.street}, ${restaurant?.address.city}`
+        );
+        setRestaurantLocation(restaurantLocation);
+      }
     })();
   }, [restaurant]);
 
@@ -89,7 +91,7 @@ export default function Checkout() {
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     clearNotification();
-    await getLocation('7В, проспект Миколи Бажана, Київ, UA');
+
     const orderData = {
       user: {
         firstname: firstName,
@@ -118,14 +120,20 @@ export default function Checkout() {
   const createMarkers = () => {
     const markersData = [];
     if (restaurantLocation) {
-      markersData.push({ position: restaurantLocation, title: restaurant?.name })
+      markersData.push({
+        position: restaurantLocation,
+        title: restaurant?.name,
+      });
     }
     if (customerLocation) {
-      markersData.push({position: customerLocation, title: `${firstName} ${lastName}`})
+      markersData.push({
+        position: customerLocation,
+        title: `${firstName} ${lastName}`,
+      });
     }
 
     return markersData;
-  }
+  };
 
   return (
     <Container>
@@ -138,8 +146,30 @@ export default function Checkout() {
           p: '1rem 2rem',
         }}
       >
-        <Grid container justifyContent="center">
-          <Grid item display="flex" justifyContent="center">
+        <Grid container justifyContent="center" spacing={5}>
+          <Grid
+            item
+            display="flex"
+            flexGrow="1"
+            alignItems="center"
+            direction="column"
+          >
+            <CheckoutData
+              onFirstName={firstNameChangeHandler}
+              onLastName={lastNameChangeHandler}
+              onEmail={emailChangeHandler}
+              onPhone={phoneChangeHandler}
+              onStreet={streetChangeHandler}
+              onHouseNumber={houseNumberChangeHandler}
+            />
+          </Grid>
+          <Grid
+            item
+            display="flex"
+            flexGrow="2"
+            alignItems="center"
+            direction="column"
+          >
             <Map
               center={{
                 lat: parseFloat('50,428435709353245'),
@@ -147,18 +177,11 @@ export default function Checkout() {
               }}
               zoom={13}
               markers={createMarkers()}
-              sx={{ maxWidth: '80%', width: '30rem', height: '100%' }}
+              sx={{ maxWidth: '80%', width: '30rem', height: '15rem' }}
             />
+
+            <CheckoutOrder />
           </Grid>
-          <CheckoutData
-            onFirstName={firstNameChangeHandler}
-            onLastName={lastNameChangeHandler}
-            onEmail={emailChangeHandler}
-            onPhone={phoneChangeHandler}
-            onStreet={streetChangeHandler}
-            onHouseNumber={houseNumberChangeHandler}
-          />
-          <CheckoutOrder />
         </Grid>
         <Button type="submit">Submit</Button>
       </Paper>
