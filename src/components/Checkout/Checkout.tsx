@@ -11,16 +11,17 @@ import NotificationContext from '@/context/notification-context';
 import getLocation from '@/utils/location';
 import { sendData } from '@/utils/fetch';
 import Container from '@mui/material/Container';
+import { Session } from 'next-auth';
 import Map from '../Map';
 
-export default function Checkout() {
+export default function Checkout({ session }: { session: Session | null }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
-
+  console.log('session', session);
   const [restaurantLocation, setRestaurantLocation] =
     useState<google.maps.LatLngLiteral>();
   const [customerLocation, setCustomerLocation] =
@@ -67,6 +68,7 @@ export default function Checkout() {
     setHouseNumber(value);
   };
 
+  // get restaurant location
   useEffect(() => {
     (async () => {
       if (restaurant) {
@@ -78,6 +80,7 @@ export default function Checkout() {
     })();
   }, [restaurant]);
 
+  // get customer location
   useEffect(() => {
     if (street && houseNumber) {
       (async () => {
@@ -87,22 +90,33 @@ export default function Checkout() {
         setCustomerLocation(customerLocation);
       })();
     }
+    if (session?.user) {
+      const { house: houseNumber, street} = session.user.address;
+      (async () => {
+        const customerLocation = await getLocation(
+          `${houseNumber} ${street}, Kyiv`
+        );
+        setCustomerLocation(customerLocation);
+      })();
+    }
   }, [street, houseNumber]);
+
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     clearNotification();
 
-    const orderData = {
-      user: {
-        firstname: firstName,
-        lastname: lastName,
-        email,
-        phone,
-        address: {
-          street,
-          house: houseNumber,
-        },
+    const enteredUserData = {
+      firstname: firstName,
+      lastname: lastName,
+      email,
+      phone,
+      address: {
+        street,
+        house: houseNumber,
       },
+    };
+    const orderData = {
+      user: session?.user ? session.user : enteredUserData,
       items: [
         ...items.map((item) => ({ id: item.id, quantity: item.quantity })),
       ],
@@ -147,22 +161,24 @@ export default function Checkout() {
         }}
       >
         <Grid container justifyContent="center" spacing={5}>
-          <Grid
-            item
-            display="flex"
-            flexGrow="1"
-            alignItems="center"
-            direction="column"
-          >
-            <CheckoutData
-              onFirstName={firstNameChangeHandler}
-              onLastName={lastNameChangeHandler}
-              onEmail={emailChangeHandler}
-              onPhone={phoneChangeHandler}
-              onStreet={streetChangeHandler}
-              onHouseNumber={houseNumberChangeHandler}
-            />
-          </Grid>
+          {!session?.user && (
+            <Grid
+              item
+              display="flex"
+              flexGrow="1"
+              alignItems="center"
+              direction="column"
+            >
+              <CheckoutData
+                onFirstName={firstNameChangeHandler}
+                onLastName={lastNameChangeHandler}
+                onEmail={emailChangeHandler}
+                onPhone={phoneChangeHandler}
+                onStreet={streetChangeHandler}
+                onHouseNumber={houseNumberChangeHandler}
+              />
+            </Grid>
+          )}
           <Grid
             item
             display="flex"
