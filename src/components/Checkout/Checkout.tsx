@@ -158,6 +158,7 @@ export default function Checkout({ session }: { session: Session | null }) {
           display: 'flex',
           flexDirection: 'column',
           p: '1rem 2rem',
+          mt: '5rem',
         }}
       >
         <Grid container justifyContent="center" spacing={5}>

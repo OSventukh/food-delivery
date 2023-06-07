@@ -12,10 +12,10 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   return (
-    <>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <RestaurantsList restaurants={restaurantsResult.restaurants} />
-        <div>
+    <div style={{ maxWidth: '100vw' }}>
+      <RestaurantsList restaurants={restaurantsResult.restaurants} />
+      <div style={{ width: '100%'}}>
+        {session?.user?.role === Role.MANAGER && (
           <div
             style={{
               display: 'flex',
@@ -23,11 +23,11 @@ export default async function Home() {
               padding: '1rem',
             }}
           >
-           {session?.user?.role === Role.MANAGER && <ManagerOptions />}
+            <ManagerOptions />
           </div>
-          <ProductsList products={productResult.products} />
-        </div>
+        )}
+        <ProductsList products={productResult.products} />
       </div>
-    </>
+    </div>
   );
 }

@@ -46,6 +46,13 @@ export type CartContextType = {
   clearCart: () => void;
 };
 
+export type SideMenuContext = {
+  isOpen: boolean,
+  toggle: () => void,
+  close: () => void,
+  open: () => void,
+}
+
 export type Notification = {
   show: boolean;
   message: string;
