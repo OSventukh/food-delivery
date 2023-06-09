@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import CheckoutData from './CheckoutData';
+import CustomerData from '../Auth/CustomerData';
 import CheckoutOrder from './CheckoutOrder';
 import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
@@ -32,6 +32,7 @@ export default function Checkout({ session }: { session: Session | null }) {
   const { items, clearCart, restaurant } = useContext(CartContext);
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
+    
   const firstNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -99,7 +100,7 @@ export default function Checkout({ session }: { session: Session | null }) {
         setCustomerLocation(customerLocation);
       })();
     }
-  }, [street, houseNumber]);
+  }, [street, houseNumber, session]);
 
   const checkoutSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -170,7 +171,7 @@ export default function Checkout({ session }: { session: Session | null }) {
               alignItems="center"
               direction="column"
             >
-              <CheckoutData
+              <CustomerData
                 onFirstName={firstNameChangeHandler}
                 onLastName={lastNameChangeHandler}
                 onEmail={emailChangeHandler}

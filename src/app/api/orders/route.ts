@@ -21,13 +21,10 @@ export async function POST(request: Request) {
       user.address.street.trim() === '' ||
       user.address.house.trim() === ''
     ) {
-      return NextResponse.json(
-        {
-          message: 'Incorect Data',
-        },
-        { status: 400 }
-      );
+      throw new HttpError('Incorect Data', 400)
     }
+    
+    // Price calculation
     let totalPrice = 0;
     for (const orderItem of orderItems) {
       const product = await prisma.product.findUnique({

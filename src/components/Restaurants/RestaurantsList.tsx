@@ -23,6 +23,7 @@ export default function RestaurantsList({
         flexGrow: 1,
         width: '15rem',
         position:  'fixed',
+        top: { xs: '3rem', md: '4rem'},
         left: { xs: isOpen ? '0' : '-15em', md: 0 },
         zIndex: '9999',
         height: '100vh',

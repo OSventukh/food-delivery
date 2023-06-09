@@ -17,13 +17,15 @@ export type CartItemQuantityProps = {
   decrease: (payload: Product) => void;
 };
 
-export type CheckoutDataProps = {
+export type CustomerDataProps = {
   onFirstName: (event: ChangeEvent<HTMLInputElement>) => void;
   onLastName: (event: ChangeEvent<HTMLInputElement>) => void;
   onEmail: (event: ChangeEvent<HTMLInputElement>) => void;
   onPhone: (event: ChangeEvent<HTMLInputElement>) => void;
   onStreet: (event: ChangeEvent<HTMLInputElement>) => void;
   onHouseNumber: (event: ChangeEvent<HTMLInputElement>) => void;
+  onPassword?: (event: ChangeEvent<HTMLInputElement>) => void;
+  withPassword?: boolean;
 };
 
 export type NotificationType = 'error' | 'warning' | 'info' | 'success';

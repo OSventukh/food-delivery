@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-
 export class HttpError extends Error {
   status: number;
   constructor(message: string, status: number) {
@@ -13,8 +12,8 @@ export const errorResponse = (error: unknown) => {
   return NextResponse.json(
     {
       message:
-        error instanceof Error ? error.message : 'Something went wrong',
+        error instanceof HttpError ? error.message : 'Something went wrong',
     },
-    { status: 500 }
+    { status: error instanceof HttpError ? error.status : 500 }
   );
-} 
+};
