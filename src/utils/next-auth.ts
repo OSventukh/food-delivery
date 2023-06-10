@@ -4,6 +4,9 @@ import { sendData } from './fetch';
 import { User } from '@/types/models';
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: '/signin',
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
@@ -13,26 +16,35 @@ export const authOptions: NextAuthOptions = {
       name: 'Credentials',
 
       credentials: {
-        phone: { label: 'phone', type: 'phone', placeholder: 'phone' },
+        phone: { label: 'phone', type: 'tel', placeholder: 'phone' },
+        password: {
+          label: 'password',
+          type: 'password',
+          placeholder: 'password',
+        },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const result = await sendData('/api/auth', credentials);
-        // If no error and we have user data, return it
-        if (!result.user) {
-          // Return null if user data could not be retrieved
-          return null;
-        }
+        console.log(credentials);
+        try {
+          const result = await sendData('/api/auth', credentials);
+          console.log(result);
+          // If no error and we have user data, return it
+          if (!result.user) {
+            // Return null if user data could not be retrieved
+            return null;
+          }
 
-        return result.user
-        
+          return result.user;
+        } catch (error) {
+          console.log(error)
+          throw error;
+        }
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user, account, profile, isNewUser }) {
       if (user) {
-  
         return {
           ...token,
           user: user as User,
