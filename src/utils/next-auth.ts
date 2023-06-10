@@ -24,10 +24,8 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        console.log(credentials);
         try {
           const result = await sendData('/api/auth', credentials);
-          console.log(result);
           // If no error and we have user data, return it
           if (!result.user) {
             // Return null if user data could not be retrieved
@@ -36,7 +34,6 @@ export const authOptions: NextAuthOptions = {
 
           return result.user;
         } catch (error) {
-          console.log(error)
           throw error;
         }
       },

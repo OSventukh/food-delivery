@@ -28,7 +28,6 @@ export default function Signup() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = event.target.value;
-    console.log('name', value)
     setFirstName(value);
   };
 

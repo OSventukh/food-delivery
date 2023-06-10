@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -42,6 +43,8 @@ export default function NavigationBar({ session }: { session: any }) {
   const { toggle } = useContext(SideMenuContext)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
+  const router = useRouter();
+  
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -126,7 +129,7 @@ export default function NavigationBar({ session }: { session: any }) {
             )}
             {session && <MenuItem onClick={handleExit}>Exit</MenuItem>}
             {!session && (
-              <MenuItem onClick={() => signIn()}>Login</MenuItem>
+              <MenuItem onClick={() => router.push('/signin')}>Login</MenuItem>
             )}
           </Menu>
         </Toolbar>

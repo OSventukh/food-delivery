@@ -21,7 +21,7 @@ export default async function RestaurantPage({
   const session = await getServerSession(authOptions);
 
   return (
-    <div style={{ display: 'flex', gap: '1rem', maxWidth: '100vw' }}>
+    <div style={{ maxWidth: '100vw' }}>
       <RestaurantsList restaurants={allRestaurants.restaurants} />
       <div style={{ width: '100%'}}>
         {session?.user?.role === Role.MANAGER && (

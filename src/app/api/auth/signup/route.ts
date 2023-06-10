@@ -3,11 +3,11 @@ import { Prisma } from '@prisma/client'
 
 import { NextResponse } from 'next/server';
 import { HttpError, errorResponse } from '@/utils/error';
+import { hashPassword } from '@/utils/bcrypt';
 
 export async function POST(request: Request) {
   try {
     const user = await request.json();
-    console.log(user);
     if (
       user.firstname.trim() === '' ||
       user.phone.trim() === '' ||
@@ -27,6 +27,7 @@ export async function POST(request: Request) {
         data: {
           firstname: user.firstname,
           lastname: user?.lastname,
+          password: await hashPassword(user.password),
           email: user.email,
           address: {
             city: 'Kyiv',
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
         lastname: user?.lastname,
         phone: user.phone,
         email: user.email,
-        password: user.password,
+        password: await hashPassword(user.password),
         address: {
           city: 'Kyiv',
           street: user.address.street,
@@ -62,14 +63,12 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error: unknown) {
-    console.log(error)
     if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
       if (error?.meta?.target === 'User_email_key') {
         const error = new HttpError('User with this email already exist', 400)
         return errorResponse(error)
       }
     }
-    console.log(error)
     return errorResponse(error);
   }
 }

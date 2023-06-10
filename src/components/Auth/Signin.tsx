@@ -1,5 +1,7 @@
 'use client';
 import { useRef, useContext } from 'react';
+import { useRouter } from 'next/navigation';
+
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -8,11 +10,13 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import NotificationContext from '@/context/notification-context';
 import { signIn } from 'next-auth/react';
-import { sendData } from '@/utils/fetch';
+
 
 export default function Signin() {
   const phoneRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
+
+  const router = useRouter();
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
@@ -32,9 +36,14 @@ export default function Signin() {
     }
 
     try {
-      const response = await signIn('credentials', { phone, password });
-      console.log(response);
+      const response = await signIn('credentials', { phone, password, redirect: false });
+      console.log(response)
+      if (response?.error) {
+        throw new Error(response.error);
+      }
+      router.back();
     } catch (error) {
+      console.log(error)
       setError(error instanceof Error ? error.message : 'Something went wrong');
     }
   };
