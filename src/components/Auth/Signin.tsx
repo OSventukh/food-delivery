@@ -37,13 +37,11 @@ export default function Signin() {
 
     try {
       const response = await signIn('credentials', { phone, password, redirect: false });
-      console.log(response)
       if (response?.error) {
         throw new Error(response.error);
       }
       router.back();
     } catch (error) {
-      console.log(error)
       setError(error instanceof Error ? error.message : 'Something went wrong');
     }
   };

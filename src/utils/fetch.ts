@@ -1,5 +1,10 @@
-export const getData = async (url: string) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url);
+export const getData = async (
+  url: string,
+  { cache }: { cache?: RequestCache } = {}
+) => {
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
+    cache,
+  });
 
   const result = await response.json();
 

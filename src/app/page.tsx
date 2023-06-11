@@ -8,9 +8,10 @@ import { Role } from '@prisma/client';
 
 export default async function Home() {
   const restaurantsResult = await getData('/api/restaurants');
-  const productResult = await getData('/api/products');
-  const session = await getServerSession(authOptions);
+  const productResult = await getData('/api/products', { cache: 'no-cache'});
 
+  const session = await getServerSession(authOptions);
+  
   return (
     <div style={{ maxWidth: '100vw' }}>
       <RestaurantsList restaurants={restaurantsResult.restaurants} />

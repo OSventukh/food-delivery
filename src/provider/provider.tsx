@@ -1,6 +1,7 @@
 import CartProvider from './cart-provider';
 import NotificationProvider from './notification-provider';
 import SideMenuContextProvider from './sidemenu-provider';
+import AuthProvider from './auth-provider';
 
 export default function ContexProvider({
   children,
@@ -8,10 +9,12 @@ export default function ContexProvider({
   children: React.ReactNode;
 }) {
   return (
-    <CartProvider>
-      <SideMenuContextProvider>
-        <NotificationProvider>{children}</NotificationProvider>
-      </SideMenuContextProvider>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <SideMenuContextProvider>
+          <NotificationProvider>{children}</NotificationProvider>
+        </SideMenuContextProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 }

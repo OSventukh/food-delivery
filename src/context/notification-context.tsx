@@ -7,7 +7,11 @@ const NotificationContext = createContext<NotificationContext>({
     message: '',
     type: 'error' || 'success' || 'info' || 'warning',
   },
-  setNotification: () => {},
+  setSuccess: (message: string) => {},
+  setError: (message: string) => {},
+  setWarning: (message: string) => {},
+  setInfo: (message: string) => {},
+  clearNotification: () => {},
 });
 
 export default NotificationContext;

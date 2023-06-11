@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -21,7 +20,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { signIn, signOut } from 'next-auth/react';
 
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -37,14 +35,11 @@ const Search = styled('div')(({ theme }) => ({
   },
 }));
 
-
 export default function NavigationBar({ session }: { session: any }) {
   const { totalQuantity } = useContext(CartContext);
-  const { toggle } = useContext(SideMenuContext)
+  const { toggle } = useContext(SideMenuContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const router = useRouter();
-  
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,28 +52,31 @@ export default function NavigationBar({ session }: { session: any }) {
     signOut();
     handleClose();
   };
+
   return (
     <ThemeProvider theme={mainTheme}>
       <AppBar position="fixed">
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex', gap: '2rem' }}>
-          <Typography
-            variant="h6"
-            noWrap
-            component={Link}
-            href="/"
-            sx={{
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            <FastfoodIcon /> 
-            Food Delivery
-          </Typography>
-          <IconButton sx={{ color: 'inherit', display: {md: 'none'}}} onClick={toggle}>
-            <MenuIcon />
-          </IconButton>
-
+            <Typography
+              variant="h6"
+              noWrap
+              component={Link}
+              href="/"
+              sx={{
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              <FastfoodIcon />
+              Food Delivery
+            </Typography>
+            <IconButton
+              sx={{ color: 'inherit', display: { md: 'none' } }}
+              onClick={toggle}
+            >
+              <MenuIcon />
+            </IconButton>
           </Box>
           <Link href="/cart">
             <IconButton
@@ -119,17 +117,13 @@ export default function NavigationBar({ session }: { session: any }) {
             onClose={handleClose}
           >
             {session && (
-              <MenuItem
-                onClick={handleClose}
-                component={Link}
-                href="/myorders"
-              >
+              <MenuItem onClick={handleClose} component={Link} href="/myorders">
                 Orders
               </MenuItem>
             )}
             {session && <MenuItem onClick={handleExit}>Exit</MenuItem>}
             {!session && (
-              <MenuItem onClick={() => router.push('/signin')}>Login</MenuItem>
+              <MenuItem onClick={() => signIn()}>Login</MenuItem>
             )}
           </Menu>
         </Toolbar>

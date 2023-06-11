@@ -190,10 +190,10 @@ export default function Checkout({ session }: { session: Session | null }) {
           >
             <Map
               center={{
-                lat: parseFloat('50,428435709353245'),
-                lng: parseFloat('30,564635998273676'),
+                lat: parseFloat('50.46097490523299'),
+                lng: parseFloat('30.54587078079166'),
               }}
-              zoom={13}
+              zoom={11}
               markers={createMarkers()}
               sx={{ maxWidth: '80%', width: '30rem', height: '15rem' }}
             />
