@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { sendData, getData } from '@/utils/fetch';
 import type { Restaurant } from '@/types/models';
 
-export default function NewProduct() {
+export default function EditProduct() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);

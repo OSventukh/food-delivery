@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/utils/next-auth';
-import NewReataurant from '@/components/Admin/NewRestaurant/NewRestaurant';
+import NewReataurant from '@/components/Admin/EditRestaurant';
 import { Role } from '@prisma/client';
 
 export default async function newRestaurantPage() {

@@ -15,9 +15,15 @@ export const getData = async (
   return result;
 };
 
-export const sendData = async (url: string, data: any) => {
+type SendMethod = 'POST' | 'PATCH';
+
+export const sendData = async (
+  url: string,
+  data: any,
+  { method }: { method?: SendMethod } = {}
+) => {
   const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
-    method: 'POST',
+    method: method || 'POST',
     headers: {
       'Content-Type': 'application/json',
     },

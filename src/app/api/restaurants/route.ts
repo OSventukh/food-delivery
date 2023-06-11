@@ -8,7 +8,6 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-
     if (id) {
       const restaurant = await prisma.restaurant.findUnique({
         where: {
@@ -79,7 +78,12 @@ export async function PATCH(request: Request) {
       where: {
         id,
       },
-      data,
+      data: {
+        name: data.name,
+        address: {
+          set: { ...data.address, city: WorkLocation.Kyiv },
+        },
+      },
     });
     return NextResponse.json(
       {
@@ -89,6 +93,7 @@ export async function PATCH(request: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error)
     return errorResponse(error);
   }
 }

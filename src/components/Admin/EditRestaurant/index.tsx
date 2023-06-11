@@ -1,5 +1,5 @@
 'use client';
-import { ChangeEvent, FormEvent, useState, useContext } from 'react';
+import { ChangeEvent, FormEvent, useState, useContext, useEffect } from 'react';
 import NotificationContext from '@/context/notification-context';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField';
@@ -8,8 +8,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { sendData } from '@/utils/fetch';
+import { Restaurant } from '@/types/models';
 
-export default function NewRestaurant() {
+export default function EditRestaurant({
+  initData,
+}: {
+  initData?: Restaurant;
+}) {
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
@@ -17,6 +22,12 @@ export default function NewRestaurant() {
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
+
+  useEffect(() => {
+    initData?.name && setName(initData.name);
+    initData?.address.street && setStreet(initData.address.street);
+    initData?.address.house && setHouseNumber(initData.address.house);
+  }, [initData]);
 
   const nameChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const enteredName = event.target.value;
@@ -44,13 +55,18 @@ export default function NewRestaurant() {
     clearNotification();
     setIsLoading(true);
     try {
-      await sendData('/api/restaurants', {
-        name: name,
-        address: {
-          street: street,
-          house: houseNumber,
+      await sendData(
+        initData ? `/api/restaurants?id=${initData.id}` : '/api/restaurants',
+        {
+          ...(initData?.id && { id: initData.id }),
+          name: name,
+          address: {
+            street: street,
+            house: houseNumber,
+          },
         },
-      });
+        {method: initData ? 'PATCH' : 'POST',}
+      );
       setSuccess('Restaurant was successfully created');
       clearForm();
     } catch (error) {
@@ -106,7 +122,7 @@ export default function NewRestaurant() {
             size="small"
           />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <LoadingButton text="Create" loading={isLoading} />
+            <LoadingButton text={ initData ? 'Update' : 'Create'} loading={isLoading} />
           </Box>
         </Box>
       </Paper>
