@@ -36,7 +36,7 @@ export default function Signin() {
     }
 
     try {
-      const response = await signIn('credentials', { phone, password, redirect: false });
+      const response = await signIn('credentials', { phone, password });
       if (response?.error) {
         throw new Error(response.error);
       }
