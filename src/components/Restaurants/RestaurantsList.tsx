@@ -25,7 +25,9 @@ export default function RestaurantsList({
 
 
 
-  const router = useRouter();
+  const restaurantDeleteHandler = async (id: string) => {
+    console.log(id);
+  }
 
 
   return (
@@ -56,7 +58,7 @@ export default function RestaurantsList({
               <ListItemText sx={{ color: '#c2afaf' }} primary={item.name} />
             </ListItemButton>
             {session && session.user.role === Role.MANAGER && (
-              <MenuList id={item.id} />
+              <MenuList id={item.id} onDelete={restaurantDeleteHandler} />
             )}
           </ListItem>
         ))}

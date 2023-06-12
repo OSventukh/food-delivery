@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function MenuList({ id }: { id: string }) {
+export default function MenuList({ id, onDelete }: { id: string, onDelete: (id: string) => void }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -17,6 +17,7 @@ export default function MenuList({ id }: { id: string }) {
 
   const restaurantDeleteClickHandler = (id: string) => {
     setAnchorEl(null);
+    onDelete(id)
   };
 
   return (
