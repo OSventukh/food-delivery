@@ -1,4 +1,4 @@
-type RequestMethod = 'GET' | 'POST' | 'PATCH';
+type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
 
 export const requestData = async (
   url: string,
@@ -13,7 +13,7 @@ export const requestData = async (
     cache,
   };
 
-  if (method !== 'GET') {
+  if (method !== 'GET' && method !== 'DELETE') {
     options.headers = {
       'Content-Type': 'application/json',
     };

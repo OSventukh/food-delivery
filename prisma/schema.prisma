@@ -47,7 +47,7 @@ model Product {
   price Float
   image String
   orderItems OrderItem[]
-  restaurant Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   restaurantId String @db.ObjectId
 }
 

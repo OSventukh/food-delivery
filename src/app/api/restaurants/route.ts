@@ -118,6 +118,7 @@ export async function DELETE(request: Request) {
       { status: 200 }
     );
   } catch (error) {
+    console.log(error)
     return errorResponse(error);
   }
 }
