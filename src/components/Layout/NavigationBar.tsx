@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useSelectedLayoutSegment } from 'next/navigation';
 import Link from 'next/link';
 import { styled, alpha, ThemeProvider } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -39,6 +40,7 @@ export default function NavigationBar({ session }: { session: any }) {
   const { totalQuantity } = useContext(CartContext);
   const { toggle } = useContext(SideMenuContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const segment = useSelectedLayoutSegment();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -71,12 +73,12 @@ export default function NavigationBar({ session }: { session: any }) {
               <FastfoodIcon />
               Food Delivery
             </Typography>
-            <IconButton
+            {segment === '(shop)' && <IconButton
               sx={{ color: 'inherit', display: { md: 'none' } }}
               onClick={toggle}
             >
               <MenuIcon />
-            </IconButton>
+            </IconButton>}
           </Box>
           <Link href="/cart">
             <IconButton

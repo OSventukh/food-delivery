@@ -17,7 +17,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div style={{ maxWidth: '100vw' }}>
+    <div style={{ maxWidth: '100vw', marginTop: '5rem' }}>
       <RestaurantsList restaurants={restaurantsResult.restaurants} />
       <div style={{ width: '100%' }}>
         {session?.user?.role === Role.MANAGER && (

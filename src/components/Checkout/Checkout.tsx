@@ -195,7 +195,7 @@ export default function Checkout({ session }: { session: Session | null }) {
               }}
               zoom={11}
               markers={createMarkers()}
-              sx={{ maxWidth: '80%', width: '30rem', height: '15rem' }}
+              sx={{ position: 'relative', overflow: 'hidden', width: '100%', maxWidth: '50rem', height: {xs: '15rem', sm: '20rem'} }}
             />
 
             <CheckoutOrder />
