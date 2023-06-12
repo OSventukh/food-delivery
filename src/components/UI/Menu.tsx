@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { IconButton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export default function MenuList({ id, onDelete }: { id: string, onDelete: (id: string) => void }) {
+export default function MenuList({ id, editLink, onDelete }: { id: string, editLink: string , onDelete: (id: string) => void }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -45,7 +45,7 @@ export default function MenuList({ id, onDelete }: { id: string, onDelete: (id: 
           <Box
             component={Link}
             sx={{ display: 'block', width: '100%', color: 'inherit', textDecoration: 'none' }}
-            href={`/edit-restaurant/${id}`}
+            href={`/${editLink}/${id}`}
           >
             Edit
           </Box>

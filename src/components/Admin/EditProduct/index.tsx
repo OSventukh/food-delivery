@@ -10,9 +10,9 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { requestData } from '@/utils/fetch';
-import type { Restaurant } from '@/types/models';
+import type { Restaurant, Product } from '@/types/models';
 
-export default function EditProduct() {
+export default function EditProduct({ initData }: { initData?: Product }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState(0);
@@ -27,6 +27,14 @@ export default function EditProduct() {
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
 
+  useEffect(() => {
+    initData?.title && setTitle(initData.title);
+    initData?.description && setDescription(initData.description);
+    initData?.price && setPrice(initData.price);
+    initData?.image && setImage(initData.image);
+    initData?.restaurant && setRestarant(initData.restaurant);
+
+  }, [initData]);
   useEffect(() => {
     let active = true;
 
@@ -92,19 +100,16 @@ export default function EditProduct() {
     clearNotification();
     setIsLoading(true);
     try {
-      await requestData(
-        '/api/products',
-        {
-          data: {
-            title,
-            description,
-            price,
-            image,
-            restaurant: restaurant?.id,
-          },
-          method: 'POST'
+      await requestData('/api/products', {
+        data: {
+          title,
+          description,
+          price,
+          image,
+          restaurant: restaurant?.id,
         },
-      );
+        method: 'POST',
+      });
       setSuccess('Product was successfully created');
       clearForm();
     } catch (error) {

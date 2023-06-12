@@ -28,7 +28,8 @@ export type Product = {
   id: string;
   title: string;
   description: string;
-  price: string;
+  image: string;
+  price: number;
   orderItems: OrderItem[];
   restaurant: Restaurant;
   restaurantId: string;

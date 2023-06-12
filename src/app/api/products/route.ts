@@ -4,6 +4,20 @@ import { HttpError, errorResponse } from '@/utils/error';
 
 export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    
+    if (id) {
+      const product = await prisma.product.findUnique({
+        where: {
+          id
+        },
+        include: {
+          restaurant: true
+        }
+      })
+      return NextResponse.json({ product })
+    }
     const products = await prisma.product.findMany({
       include: {
         restaurant: true

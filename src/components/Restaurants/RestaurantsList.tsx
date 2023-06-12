@@ -65,7 +65,7 @@ export default function RestaurantsList({
               <ListItemText sx={{ color: '#c2afaf' }} primary={item.name} />
             </ListItemButton>
             {session && session.user.role === Role.MANAGER && (
-              <MenuList id={item.id} onDelete={restaurantDeleteHandler} />
+              <MenuList id={item.id} editLink='edit-restaurant' onDelete={restaurantDeleteHandler} />
             )}
           </ListItem>
         ))}

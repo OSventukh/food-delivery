@@ -14,9 +14,9 @@ export default async function RestaurantPage({
 }) {
   const restaurantId = params.restaurantId;
 
-  const allRestaurants = await requestData('/api/restaurants');
+  const allRestaurants = await requestData('/api/restaurants', {cache: 'no-cache'});
   const currentRestaurants = await requestData(
-    `/api/restaurants?id=${restaurantId}`
+    `/api/restaurants?id=${restaurantId}`, {cache: 'no-cache'}
   );
   const session = await getServerSession(authOptions);
 
