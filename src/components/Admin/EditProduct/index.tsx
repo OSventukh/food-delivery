@@ -9,7 +9,7 @@ import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { sendData, getData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 import type { Restaurant } from '@/types/models';
 
 export default function EditProduct() {
@@ -37,7 +37,7 @@ export default function EditProduct() {
     (async () => {
       try {
         setLoadingRestaurant(true);
-        const result = await getData('/api/restaurants');
+        const result = await requestData('/api/restaurants');
         active && setRestarantList(result.restaurants);
       } catch (error) {
         setError(
@@ -92,13 +92,19 @@ export default function EditProduct() {
     clearNotification();
     setIsLoading(true);
     try {
-      await sendData('/api/products', {
-        title,
-        description,
-        price,
-        image,
-        restaurant: restaurant?.id,
-      });
+      await requestData(
+        '/api/products',
+        {
+          data: {
+            title,
+            description,
+            price,
+            image,
+            restaurant: restaurant?.id,
+          },
+          method: 'POST'
+        },
+      );
       setSuccess('Product was successfully created');
       clearForm();
     } catch (error) {

@@ -1,14 +1,14 @@
 import ProductsList from '@/components/Products/ProductsList';
 import RestaurantsList from '@/components/Restaurants/RestaurantsList';
 import ManagerOptions from '@/components/ManagerOptions/ManagerOptions';
-import { getData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/utils/next-auth';
 import { Role } from '@prisma/client';
 
 export default async function Home() {
-  const restaurantsResult = await getData('/api/restaurants');
-  const productResult = await getData('/api/products', { cache: 'no-cache'});
+  const restaurantsResult = await requestData('/api/restaurants');
+  const productResult = await requestData('/api/products', { cache: 'no-cache'});
 
   const session = await getServerSession(authOptions);
   

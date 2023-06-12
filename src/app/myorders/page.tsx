@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import UserOders from "@/components/UserOrders/UserOders"
-import { getData } from "@/utils/fetch"
+import { requestData } from "@/utils/fetch"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/utils/next-auth';
 
@@ -11,7 +11,7 @@ export default async function MyOrdersPage() {
   if (!session) {
     redirect('/')
   }
-  const result = await getData(`/api/users?id=${session.user.id}`)
+  const result = await requestData(`/api/users?id=${session.user.id}`)
 
   return (
     <UserOders items={result.user.orders}/>

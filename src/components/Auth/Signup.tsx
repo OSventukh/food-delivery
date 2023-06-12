@@ -8,10 +8,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import NotificationContext from '@/context/notification-context';
 import Container from '@mui/material/Container';
-import { sendData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 
 export default function Signup() {
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,10 +18,11 @@ export default function Signup() {
   const [street, setStreet] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
   const [password, setPassword] = useState('');
-  
+
   const router = useRouter();
 
-  const { setSuccess, setError, clearNotification } = useContext(NotificationContext);
+  const { setSuccess, setError, clearNotification } =
+    useContext(NotificationContext);
 
   const firstNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -48,7 +48,9 @@ export default function Signup() {
     setPhone(value);
   };
 
-  const passwordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const passwordChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value;
     setPassword(value);
   };
@@ -68,7 +70,7 @@ export default function Signup() {
   const signupSubmitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     clearNotification();
-    
+
     const enteredUserData = {
       firstname: firstName,
       lastname: lastName,
@@ -82,13 +84,13 @@ export default function Signup() {
     };
 
     try {
-      await sendData('/api/auth/signup', enteredUserData);
+      await requestData('/api/auth/signup', { data: enteredUserData, method: 'POST' });
       setSuccess('You have successfully registered and can now login');
       router.replace('/');
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Registration failed');
     }
-  }
+  };
   return (
     <Container>
       <Paper

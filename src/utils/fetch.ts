@@ -1,39 +1,32 @@
-export const getData = async (
+type RequestMethod = 'GET' | 'POST' | 'PATCH';
+
+export const requestData = async (
   url: string,
-  { cache }: { cache?: RequestCache } = {}
-) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
+  {
+    data,
+    method,
     cache,
-  });
-
-  const result = await response.json();
-
-  if (!response.ok) {
-    throw new Error(result?.message || 'Something went wrong');
-  }
-
-  return result;
-};
-
-type SendMethod = 'POST' | 'PATCH';
-
-export const sendData = async (
-  url: string,
-  data: any,
-  { method }: { method?: SendMethod } = {}
+  }: { data?: any; method?: RequestMethod; cache?: RequestCache } = {}
 ) => {
-  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, {
-    method: method || 'POST',
-    headers: {
+  const options: RequestInit = {
+    method: method || 'GET',
+    cache,
+  };
+
+  if (method !== 'GET') {
+    options.headers = {
       'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+    };
+    options.body = JSON.stringify(data);
+  }
+
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, options);
 
   const result = await response.json();
 
   if (!response.ok) {
     throw new Error(result?.message || 'Something went wrong');
   }
+
   return result;
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { getData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 import RestaurantsList from '@/components/Restaurants/RestaurantsList';
 import ProductsList from '@/components/Products/ProductsList';
 import { getServerSession } from 'next-auth/next';
@@ -14,8 +14,8 @@ export default async function RestaurantPage({
 }) {
   const restaurantId = params.restaurantId;
 
-  const allRestaurants = await getData('/api/restaurants');
-  const currentRestaurants = await getData(
+  const allRestaurants = await requestData('/api/restaurants');
+  const currentRestaurants = await requestData(
     `/api/restaurants?id=${restaurantId}`
   );
   const session = await getServerSession(authOptions);

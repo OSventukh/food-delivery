@@ -7,7 +7,7 @@ import LoadingButton from '@/components/UI/LoadingButton';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { sendData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 import { Restaurant } from '@/types/models';
 
 export default function EditRestaurant({
@@ -55,17 +55,19 @@ export default function EditRestaurant({
     clearNotification();
     setIsLoading(true);
     try {
-      await sendData(
+      await requestData(
         initData ? `/api/restaurants?id=${initData.id}` : '/api/restaurants',
         {
-          ...(initData?.id && { id: initData.id }),
-          name: name,
-          address: {
-            street: street,
-            house: houseNumber,
+          data: {
+            ...(initData?.id && { id: initData.id }),
+            name: name,
+            address: {
+              street: street,
+              house: houseNumber,
+            },
           },
-        },
-        {method: initData ? 'PATCH' : 'POST',}
+          method: initData ? 'PATCH' : 'POST',
+        }
       );
       setSuccess('Restaurant was successfully created');
       clearForm();
@@ -122,7 +124,10 @@ export default function EditRestaurant({
             size="small"
           />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <LoadingButton text={ initData ? 'Update' : 'Create'} loading={isLoading} />
+            <LoadingButton
+              text={initData ? 'Update' : 'Create'}
+              loading={isLoading}
+            />
           </Box>
         </Box>
       </Paper>

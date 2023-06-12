@@ -1,6 +1,6 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { sendData } from './fetch';
+import { requestData } from './fetch';
 import { User } from '@/types/models';
 
 export const authOptions: NextAuthOptions = {
@@ -25,7 +25,10 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req) {
         try {
-          const result = await sendData('/api/auth', credentials);
+          const result = await requestData('/api/auth', {
+            data: credentials,
+            method: 'POST',
+          });
           // If no error and we have user data, return it
           if (!result.user) {
             // Return null if user data could not be retrieved

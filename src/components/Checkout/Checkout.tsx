@@ -9,7 +9,7 @@ import { Button } from '@mui/material';
 import CartContext from '@/context/cart-context';
 import NotificationContext from '@/context/notification-context';
 import getLocation from '@/utils/location';
-import { sendData } from '@/utils/fetch';
+import { requestData } from '@/utils/fetch';
 import Container from '@mui/material/Container';
 import { Session } from 'next-auth';
 import Map from '../Map';
@@ -123,7 +123,7 @@ export default function Checkout({ session }: { session: Session | null }) {
       ],
     };
     try {
-      await sendData('/api/orders', orderData);
+      await requestData('/api/orders', {data: orderData, method: 'POST'});
       setSuccess('Order successfully created');
       clearCart();
       router.replace('/');
