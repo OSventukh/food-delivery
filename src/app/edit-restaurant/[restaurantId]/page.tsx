@@ -7,7 +7,7 @@ export default async function EditRestaurantPage({
 }: {
   params: { restaurantId: string };
 }) {
-  const result = await getData(`/api/restaurants?id=${params.restaurantId}`)
+  const result = await getData(`/api/restaurants?id=${params.restaurantId}`, { cache: 'no-cache'})
 
   return <EditRestaurant initData={result.restaurant} />;
 }

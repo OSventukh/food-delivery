@@ -73,7 +73,6 @@ export async function PATCH(request: Request) {
     }
 
     const data = await request.json();
-
     const updatedRestaurant = await prisma.restaurant.update({
       where: {
         id,
