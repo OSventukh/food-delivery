@@ -6,7 +6,9 @@ export const requestData = async (
     data,
     method,
     cache,
-  }: { data?: any; method?: RequestMethod; cache?: RequestCache } = {}
+    revalidate,
+    tags,
+  }: { data?: any; method?: RequestMethod; cache?: RequestCache; revalidate?: number; tags?: string[] } = {}
 ) => {
   const options: RequestInit = {
     method: method || 'GET',
@@ -20,6 +22,15 @@ export const requestData = async (
     options.body = JSON.stringify(data);
   }
 
+  if (revalidate) {
+    options.next = {...(options?.next && options.next)}
+    options.next.revalidate = revalidate;
+  }
+
+  if (tags) {
+    options.next = { ...(options?.next && options.next)}
+    options.next.tags = tags;
+  }
   const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, options);
 
   const result = await response.json();
