@@ -59,7 +59,6 @@ export default function EditRestaurant({
         initData ? `/api/restaurants?id=${initData.id}` : '/api/restaurants',
         {
           data: {
-            ...(initData?.id && { id: initData.id }),
             name: name,
             address: {
               street: street,

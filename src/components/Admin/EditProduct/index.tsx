@@ -22,19 +22,19 @@ export default function EditProduct({ initData }: { initData?: Product }) {
   const [openRestaurant, setOpenRestaurant] = useState(false);
   const [loadingRestaurant, setLoadingRestaurant] = useState(false);
 
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
-
   useEffect(() => {
     initData?.title && setTitle(initData.title);
     initData?.description && setDescription(initData.description);
     initData?.price && setPrice(initData.price);
     initData?.image && setImage(initData.image);
     initData?.restaurant && setRestarant(initData.restaurant);
-
   }, [initData]);
+  
   useEffect(() => {
     let active = true;
 
@@ -100,16 +100,19 @@ export default function EditProduct({ initData }: { initData?: Product }) {
     clearNotification();
     setIsLoading(true);
     try {
-      await requestData('/api/products', {
-        data: {
-          title,
-          description,
-          price,
-          image,
-          restaurant: restaurant?.id,
-        },
-        method: 'POST',
-      });
+      await requestData(
+        initData ? `/api/products?id=${initData.id}` : '/api/products',
+        {
+          data: {
+            title,
+            description,
+            price,
+            image,
+            restaurant: restaurant?.id,
+          },
+          method: initData ? 'PATCH' : 'POST',
+        }
+      );
       setSuccess('Product was successfully created');
       clearForm();
     } catch (error) {
@@ -127,7 +130,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
           component="h2"
           sx={{ textAlign: 'center', mb: '2rem' }}
         >
-          New Product
+          {initData ? 'Edit Product' : 'New Product'}
         </Typography>
         <Box
           component="form"
@@ -208,7 +211,10 @@ export default function EditProduct({ initData }: { initData?: Product }) {
           />
 
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <LoadingButton text="Create" loading={isLoading} />
+            <LoadingButton
+              text={initData ? 'Update' : 'Create'}
+              loading={isLoading}
+            />
           </Box>
         </Box>
       </Paper>

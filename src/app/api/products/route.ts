@@ -67,13 +67,20 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const data = await request.json();
+    const {restaurant, ...data} = await request.json();
 
     const updatedProduct = await prisma.product.update({
       where: {
         id,
       },
-      data,
+      data: {
+        ...data,
+        restaurant: {
+          connect: {
+            id: restaurant
+          }
+        }
+      },
     });
     return NextResponse.json(
       {
