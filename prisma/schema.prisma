@@ -48,6 +48,7 @@ model Product {
   image String
   orderItems OrderItem[]
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  updatedAt DateTime? @updatedAt
   restaurantId String @db.ObjectId
 }
 

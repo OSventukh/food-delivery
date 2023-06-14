@@ -85,7 +85,7 @@ export default function EditRestaurant({
           component="h2"
           sx={{ textAlign: 'center', mb: '2rem' }}
         >
-          New Restaurant
+          {initData ? 'Edit Restaurant' : 'New Restaurant'}
         </Typography>
         <Box
           component="form"

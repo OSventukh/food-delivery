@@ -1,6 +1,10 @@
 import { prisma } from '@/utils/prisma';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { HttpError, errorResponse } from '@/utils/error';
+import { revalidateTag } from 'next/cache'
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/utils/next-auth';
+import { Role } from '@prisma/client';
 
 export async function GET(request: Request) {
   try {
@@ -25,12 +29,19 @@ export async function GET(request: Request) {
     });
     return NextResponse.json({ products });
   } catch (error: unknown) {
+    console.log(error)
     return errorResponse(error);
   }
 }
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
+    
     const product = await request.json();
 
     const createdProduct = await prisma.product.create({
@@ -55,10 +66,17 @@ export async function POST(request: Request) {
   }
 }
 
-export async function PATCH(request: Request) {
+export async function PATCH(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
+
+    revalidateTag('product')
 
     if (!id) {
       throw new HttpError(
@@ -96,6 +114,12 @@ export async function PATCH(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
+
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

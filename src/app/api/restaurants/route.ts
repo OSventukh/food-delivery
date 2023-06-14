@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 import type { Restaurant } from '@/types/models';
 import { WorkLocation } from '@/utils/constant/city.enum';
 import { HttpError, errorResponse } from '@/utils/error';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/utils/next-auth';
+import { Role } from '@prisma/client';
 
 export async function GET(request: Request) {
   try {
@@ -29,6 +32,11 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
     const { name, address }: Restaurant = await request.json();
     if (!name || name.trim() === '') {
       throw new HttpError('Please, enter the restaurant name', 400);
@@ -65,6 +73,11 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
@@ -98,6 +111,11 @@ export async function PATCH(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const session = await getServerSession(authOptions);
+    // Prevent access by users with an inappropriate role
+    if (session?.user.role !== Role.MANAGER) {
+      throw new HttpError('This action is not allowed', 401)
+    }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 

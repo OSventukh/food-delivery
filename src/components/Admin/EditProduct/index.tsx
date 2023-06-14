@@ -27,6 +27,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
+
   useEffect(() => {
     initData?.title && setTitle(initData.title);
     initData?.description && setDescription(initData.description);
@@ -35,6 +36,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
     initData?.restaurant && setRestarant(initData.restaurant);
   }, [initData]);
   
+  console.log(initData)
   useEffect(() => {
     let active = true;
 
@@ -95,12 +97,14 @@ export default function EditProduct({ initData }: { initData?: Product }) {
     setRestarant(null);
   };
 
-  const createRestaurantSubmitHandler = async (event: FormEvent) => {
+  const productSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
     clearNotification();
     setIsLoading(true);
+    console.log('response');
+
     try {
-      await requestData(
+      const response = await requestData(
         initData ? `/api/products?id=${initData.id}` : '/api/products',
         {
           data: {
@@ -113,7 +117,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
           method: initData ? 'PATCH' : 'POST',
         }
       );
-      setSuccess('Product was successfully created');
+      setSuccess(response?.message || 'Product was successfully created');
       clearForm();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
@@ -121,7 +125,6 @@ export default function EditProduct({ initData }: { initData?: Product }) {
       setIsLoading(false);
     }
   };
-
   return (
     <Container>
       <Paper sx={{ p: '1rem 3rem' }}>
@@ -134,7 +137,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
         </Typography>
         <Box
           component="form"
-          onSubmit={createRestaurantSubmitHandler}
+          onSubmit={productSubmitHandler}
           sx={{
             display: 'flex',
             flexDirection: 'column',

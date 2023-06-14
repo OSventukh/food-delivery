@@ -29,8 +29,9 @@ export const requestData = async (
 
   if (tags) {
     options.next = { ...(options?.next && options.next)}
-    options.next.tags = tags;
+    options.next.tags = [...tags];
   }
+  console.log('options', options)
   const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + url, options);
 
   const result = await response.json();

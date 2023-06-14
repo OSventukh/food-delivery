@@ -12,8 +12,8 @@ export default async function EditProductPage({ params }: { params: { productId:
     redirect('/signin')
   }
 
-  const result = await requestData(`/api/products?id=${params.productId}`, { cache: 'no-store'});
+  const result = await requestData(`/api/products?id=${params.productId}`, { cache: 'no-store', tags: ['product']});
   return (
-    <EditProduct initData={result.product} />
+    <EditProduct key={result.product.id} initData={result.product} />
   )
 }
