@@ -118,7 +118,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
         }
       );
       setSuccess(response?.message || 'Product was successfully created');
-      clearForm();
+      !initData && clearForm();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     } finally {

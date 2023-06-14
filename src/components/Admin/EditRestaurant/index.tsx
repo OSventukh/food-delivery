@@ -69,7 +69,7 @@ export default function EditRestaurant({
         }
       );
       setSuccess('Restaurant was successfully created');
-      clearForm();
+      !initData && clearForm();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     } finally {
