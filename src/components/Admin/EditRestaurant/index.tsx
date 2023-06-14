@@ -1,5 +1,6 @@
 'use client';
 import { ChangeEvent, FormEvent, useState, useContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import NotificationContext from '@/context/notification-context';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField';
@@ -22,6 +23,8 @@ export default function EditRestaurant({
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
+
+  const router = useRouter();
 
   useEffect(() => {
     initData?.name && setName(initData.name);
@@ -50,7 +53,7 @@ export default function EditRestaurant({
     setHouseNumber('');
   };
 
-  const createRestaurantSubmitHandler = async (event: FormEvent) => {
+  const restaurantSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
     clearNotification();
     setIsLoading(true);
@@ -70,6 +73,7 @@ export default function EditRestaurant({
       );
       setSuccess('Restaurant was successfully created');
       !initData && clearForm();
+      router.refresh();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     } finally {
@@ -89,7 +93,7 @@ export default function EditRestaurant({
         </Typography>
         <Box
           component="form"
-          onSubmit={createRestaurantSubmitHandler}
+          onSubmit={restaurantSubmitHandler}
           sx={{
             display: 'flex',
             flexDirection: 'column',

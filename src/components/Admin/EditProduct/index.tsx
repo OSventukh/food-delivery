@@ -1,5 +1,6 @@
 'use client';
 import { ChangeEvent, FormEvent, useState, useContext, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import NotificationContext from '@/context/notification-context';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField';
@@ -24,6 +25,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
 
   
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const { setError, setSuccess, clearNotification } =
     useContext(NotificationContext);
@@ -36,7 +38,6 @@ export default function EditProduct({ initData }: { initData?: Product }) {
     initData?.restaurant && setRestarant(initData.restaurant);
   }, [initData]);
   
-  console.log(initData)
   useEffect(() => {
     let active = true;
 
@@ -101,7 +102,6 @@ export default function EditProduct({ initData }: { initData?: Product }) {
     event.preventDefault();
     clearNotification();
     setIsLoading(true);
-    console.log('response');
 
     try {
       const response = await requestData(
@@ -119,6 +119,7 @@ export default function EditProduct({ initData }: { initData?: Product }) {
       );
       setSuccess(response?.message || 'Product was successfully created');
       !initData && clearForm();
+      router.refresh();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     } finally {

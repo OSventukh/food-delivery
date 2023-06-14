@@ -1,5 +1,6 @@
 'use client';
 import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -22,6 +23,8 @@ export default function ProductItem({ product }: { product: Product }) {
     useContext(NotificationContext);
   const { data: session } = useSession();
 
+  const router = useRouter();
+
   const productDeleteHandler = async (id: string) => {
     try {
       clearNotification();
@@ -33,6 +36,7 @@ export default function ProductItem({ product }: { product: Product }) {
           ? response.message
           : 'Product was successfully deleted'
       );
+      router.refresh();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     }

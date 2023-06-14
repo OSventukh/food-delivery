@@ -9,9 +9,12 @@ import { Role } from '@prisma/client';
 export default async function Home() {
   const restaurantsResult = await requestData('/api/restaurants', {
     cache: 'no-cache',
+    tags: ['restaurants']
   });
+
   const productResult = await requestData('/api/products', {
     cache: 'no-cache',
+    tags: ['products'],
   });
 
   const session = await getServerSession(authOptions);

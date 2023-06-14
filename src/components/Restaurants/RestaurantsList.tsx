@@ -1,5 +1,6 @@
 'use client';
 import { useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -25,6 +26,7 @@ export default function RestaurantsList({
   const { setError, setSuccess } = useContext(NotificationContext);
 
   const { data: session } = useSession();
+  const router = useRouter();
 
   const restaurantDeleteHandler = async (id: string) => {
     try {
@@ -32,6 +34,7 @@ export default function RestaurantsList({
         method: 'DELETE',
       });
       setSuccess(response?.message || 'Restaurant was succesfully deleted');
+      router.refresh();
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Something went wrong');
     }

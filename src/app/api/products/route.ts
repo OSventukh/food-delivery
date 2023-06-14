@@ -1,7 +1,6 @@
 import { prisma } from '@/utils/prisma';
 import { NextResponse, NextRequest } from 'next/server';
 import { HttpError, errorResponse } from '@/utils/error';
-import { revalidateTag } from 'next/cache'
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/utils/next-auth';
 import { Role } from '@prisma/client';
@@ -29,7 +28,6 @@ export async function GET(request: Request) {
     });
     return NextResponse.json({ products });
   } catch (error: unknown) {
-    console.log(error)
     return errorResponse(error);
   }
 }
@@ -54,6 +52,7 @@ export async function POST(request: Request) {
         },
       },
     });
+
     return NextResponse.json(
       {
         message: 'Product was successfully created',
@@ -75,8 +74,6 @@ export async function PATCH(request: NextRequest) {
     }
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
-
-    revalidateTag('product')
 
     if (!id) {
       throw new HttpError(
