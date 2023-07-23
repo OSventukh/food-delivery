@@ -31,38 +31,3 @@ npm run dev
 yarn dev
 ```
 
-Currently no GUI has been created for creating restaurants and products.
-
-Now they can be created using a POstman type program on the following endpoints
-
-restaurants:
-
-`POST /api/restaurants`
-
-with data 
-
-  ```bash
-  {
-    name: Restaurant name
-    address: {
-      street: Street name,
-      house: House number,
-    }
-  }
-  ```
-
-products:
-
-`POST /api/products`
-
-with data 
-
-  ```bash
-  {
-    title: Product name
-    description: Product description
-    price: Product price
-    image: Product image url
-    restaurantId: id of restaurant 
-  }
-  ```
